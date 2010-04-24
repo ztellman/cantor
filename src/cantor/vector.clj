@@ -10,7 +10,7 @@
   (:use [cantor misc]
         [clojure.contrib.def :only (defmacro-)]
         [clojure.walk :only (postwalk postwalk-replace)])
-  (:require [cantor.core :as core]))
+  (:require [cantor :as core]))
 
 ;;
 
@@ -51,7 +51,6 @@
             (Vec2. (/ x b) (/ y b)))
           (let [v b]
             (Vec2. (/ x (.x v)) (/ y (.y v))))))
-   (mod* [_ v] (Vec2. (mod x (.x v)) (mod y (.y v))))
 
    core/Cartesian
    (dot [_ v] (+ (* x (.x v)) (* y (.y v))))
@@ -103,7 +102,6 @@
                   (Vec3. (/ x b) (/ y b) (/ z b)))
                 (let [v b]
                   (Vec3. (/ x (.x v)) (/ y (.y v)) (/ z (.z v))))))
-   (mod* [_ v] (Vec3. (mod x (.x v)) (mod y (.y v)) (mod z (.x v))))
    
    core/Cartesian
    (dot [_ v] (+ (* x (.x v)) (* y (.y v)) (* z (.z v))))

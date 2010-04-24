@@ -6,9 +6,8 @@
 ;;   the terms of this license.
 ;;   You must not remove this notice, or any other, from this software.
 
-(ns cantor.core
-  (:use [clojure.walk :only (postwalk-replace postwalk)]
-        [clojure.contrib.def :only (defmacro-)]))
+(ns cantor
+  (:use [clojure.contrib.def :only (defmacro-)]))
 
 ;;;
 
@@ -16,20 +15,17 @@
   (add [a b])
   (sub [a] [a b])
   (mul [a b])
-  (div [a b])
-  (mod* [a b]))
+  (div [a b]))
 
 (defprotocol Cartesian
   (dot [a b])
   (polar [v])
   (map- [v f] [v f rest]))
 
-;;(def map- (with-meta map- (merge (meta map-) {:private true})))
-
 (defprotocol Polar
   (cartesian [p]))
 
-(defprotocol TransformMatrix
+(defprotocol Matrix
   (transform-matrix [a b] "Returns the product of two matrices.")
   (transform-vector [m v] "Returns a vector transformed by the matrix."))
 
@@ -69,6 +65,8 @@
 (def polar2? vec/polar2?)
 (def polar3? vec/polar3?)
 
+(def cross vec/cross)
+
 (def rotation-matrix mat/rotation-matrix)
 (def identity-matrix mat/identity-matrix)
 (def translation-matrix mat/translation-matrix)
@@ -98,6 +96,5 @@
  (add [a b] (+ a b))
  (sub [a b] (- a b))
  (mul [a b] (* a b))
- (div [a b] (/ a b))
- (mod* [a b] (mod a b)))
+ (div [a b] (/ a b)))
 

@@ -10,7 +10,7 @@
   (:use [cantor misc]
         [clojure.contrib.def :only (defmacro-)]
         [clojure.walk :only (postwalk postwalk-replace)])
-  (:require [cantor.core :as core])
+  (:require [cantor :as core])
   (:import [cantor.vector Vec3]))
 
 (defmacro- tag-vars [types body]
@@ -36,7 +36,7 @@
                       #^double m01 #^double m11 #^double m21 #^double m31
                       #^double m02 #^double m12 #^double m22 #^double m32
                       #^double m03 #^double m13 #^double m23 #^double m33]
-   core/TransformMatrix
+   core/Matrix
    (transform-vector
     [_ v]
     (Vec3. (+ (* (.x v) m00) (* (.y v) m10) (* (.z v) m20) m30)
