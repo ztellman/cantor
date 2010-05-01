@@ -1,0 +1,36 @@
+Cantor is a high-performance floating point math library.
+
+The idiomatic way to add together two 2-vectors in Clojure is
+
+> (map + [1 2] [3 4])
+(4 6)
+
+Sadly, this is quite slow.  Cantor defines operators which work efficiently across a variety of types.  The above operation, in Cantor, is accomplished thus:
+
+> (add (vec2 1 2) (vec2 3 4))
+[ X=4.0 Y=6.0 ]
+
+This is roughly 10-20x faster than the idiomatic approach.  These operators also work on normal numbers:
+
+> (add 1 2)
+3
+
+The available operators include:
+
+* add
+* sub
+* mul
+** @(mul (vec2 1 2) 2)@ => @[ X=2.0 Y=4.0 ]@
+** @(mul (vec3 1 2 3) (vec3 4 5 6))@ => @[ X=4.0 Y=7.0 Z=9.0 ]@
+* div
+** @(div (vec3 2 4 6) 2)@ => @[ X=1.0 Y=2.0 Z=3.0 ]@
+** @(div (vec2 4 8) (vec2 1 2))@ => @[ X=4.0 Y=4.0 ]@
+* dot
+** @(dot (vec2 1 0) (vec2 0 1))@ => @0.0@
+* polar 
+** @(polar (vec2 1 1))@ => @[ Theta=45 R=1.414 ]@
+* map* 
+** @(map* #(+ % 1) (vec3 1 2 3))@ => @[ X=2.0 Y=3.0 Z=4.0 ]@
+* cartesian 
+** @(cartesian (polar2 45 1))@ => @[ X=0.707 Y=0.707 ]@
+** @(cartesian 45)@ => @[ X=0.707 Y=0.707 ]@

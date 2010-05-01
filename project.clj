@@ -1,6 +1,6 @@
 (defproject cantor "0.1.0"
   :description "primitive math for clojure"
-  :dependencies [[org.clojure/clojure "1.2.0"]
-                 [org.clojure/clojure-contrib "1.2.0"]]
+  :dependencies [[org.clojure/clojure "1.2.0-master-SNAPSHOT"]
+                 [org.clojure/clojure-contrib "1.2.0-SNAPSHOT"]]
   :dev-dependencies [[lein-clojars "0.5.0-SNAPSHOT"]
-                     [leiningen/lein-swank "1.1.0"]])
+                     [leiningen/lein-swank "1.2.0-SNAPSHOT"]])
