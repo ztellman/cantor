@@ -2,18 +2,18 @@ Cantor is a high-performance floating point math library.
 
 The idiomatic way to add together two 2-vectors in Clojure is
 
-> (map + [1 2] [3 4])
-(4 6)
+<pre><code>> (map + [1 2] [3 4])
+(4 6)</code></pre>
 
 Sadly, this is quite slow.  Cantor defines operators which work efficiently across a variety of types.  The above operation, in Cantor, is accomplished thus:
 
-> (add (vec2 1 2) (vec2 3 4))
-[ X=4.0 Y=6.0 ]
+<pre><code>> (add (vec2 1 2) (vec2 3 4))
+[ X=4.0 Y=6.0 ]</code></pre>
 
 This is roughly 10-20x faster than the idiomatic approach.  These operators also work on normal numbers:
 
-> (add 1 2)
-3
+<pre><code>> (add 1 2)
+3</code></pre>
 
 The available operators include:
 
