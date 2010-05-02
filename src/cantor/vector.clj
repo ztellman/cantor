@@ -20,6 +20,9 @@
          (postwalk-replace types)
          (postwalk #(if (vector? %) (postwalk-replace (zipmap (vals types) (keys types)) %) %)))))
 
+(defmacro- replace-symbols [symbols body]
+  (postwalk-replace symbols body))
+
 (defrecord Polar2 [#^double theta #^double r]
 
   clojure.lang.IFn
@@ -28,40 +31,43 @@
                   1 r)))
 
 (tag-vars
- {v Vec2}
- (defrecord Vec2 [#^double x #^double y]
+  {v Vec2}
+  (defrecord Vec2 [#^double x #^double y]
 
-   clojure.lang.IFn
-   (invoke [_ n] (condp = n
-                   0 x
-                   1 y))
+    clojure.lang.IFn
+    (invoke [_ n] (condp = n
+                    0 x
+                    1 y))
 
-   core/Arithmetic
-   (add [_ v] (Vec2. (+ x (.x v)) (+ y (.y v))))
-   (sub [_ v] (Vec2. (- x (.x v)) (- y (.y v))))
-   (mul [_ b]
-        (if (number? b)
-          (let [b (double b)]
-            (Vec2. (* x b) (* y b)))
-          (let [v b]
-            (Vec2. (* x (.x v)) (* y (.y v))))))
-   (div [_ b]
-        (if (number? b)
-          (let [b (double b)]
-            (Vec2. (/ x b) (/ y b)))
-          (let [v b]
-            (Vec2. (/ x (.x v)) (/ y (.y v))))))
-
-   core/Cartesian
-   (dot [_ v] (+ (* x (.x v)) (* y (.y v))))
+    core/Arithmetic
+    (add- [this] this)
+    (add- [_ v] (Vec2. (+ x (.x v)) (+ y (.y v))))
+    (sub- [this] (Vec2. (- x) (- y)))
+    (sub- [_ v] (Vec2. (- x (.x v)) (- y (.y v))))
+    (mul- [this] this)
+    (mul- [_ b]
+          (if (number? b)
+            (let [b (double b)]
+              (Vec2. (* x b) (* y b)))
+            (let [v b]
+              (Vec2. (* x (.x v)) (* y (.y v))))))
+    (div- [this] this)
+    (div- [_ b]
+          (if (number? b)
+            (let [b (double b)]
+              (Vec2. (/ x b) (/ y b)))
+            (let [v b]
+              (Vec2. (/ x (.x v)) (/ y (.y v))))))
+    core/Cartesian
+    (dot [_ v] (+ (* x (.x v)) (* y (.y v))))
    
-   (map- [_ f]
+    (map- [_ f]
           (Vec2. (double (f x)) (double (f y))))
-   (map- [v f rest]
-         (let [vs (cons v rest)]
-           (Vec2. (double (apply f (map #(.x #^Vec2 %) vs)))
-                  (double (apply f (map #(.y #^Vec2 %) vs))))))
-   (polar [v] (Polar2. (degrees (Math/atan2 y x)) (core/length v)))))
+    (map- [v f rest]
+          (let [vs (cons v rest)]
+            (Vec2. (double (apply f (map #(.x #^Vec2 %) vs)))
+                   (double (apply f (map #(.y #^Vec2 %) vs))))))
+    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (core/length v)))))
 
 (tag-vars
  {p Polar2}
@@ -90,18 +96,24 @@
                    2 z))
    
    core/Arithmetic
-   (add [_ v] (Vec3. (+ x (.x v)) (+ y (.y v)) (+ z (.z v))))
-   (sub [_ v] (Vec3. (- x (.x v)) (- y (.y v)) (- z (.z v))))
-   (mul [_ b] (if (number? b)
-                (let [b (double b)]
-                  (Vec3. (* x b) (* y b) (* z b)))
-                (let [v b]
-                  (Vec3. (* x (.x v)) (* y (.y v)) (* z (.z v))))))
-   (div [_ b] (if (number? b)
-                (let [b (double b)]
-                  (Vec3. (/ x b) (/ y b) (/ z b)))
-                (let [v b]
-                  (Vec3. (/ x (.x v)) (/ y (.y v)) (/ z (.z v))))))
+   (add- [this] this)
+   (add- [_ v] (Vec3. (+ x (.x v)) (+ y (.y v)) (+ z (.z v))))
+   (sub- [_] (Vec3. (- x) (- y) (- z)))
+   (sub- [_ v] (Vec3. (- x (.x v)) (- y (.y v)) (- z (.z v))))
+   (mul- [this] this)
+   (mul- [_ b]
+         (if (number? b)
+           (let [b (double b)]
+             (Vec3. (* x b) (* y b) (* z b)))
+           (let [v b]
+             (Vec3. (* x (.x v)) (* y (.y v)) (* z (.z v))))))
+   (div- [this] this)
+   (div- [_ b]
+         (if (number? b)
+           (let [b (double b)]
+             (Vec3. (/ x b) (/ y b) (/ z b)))
+           (let [v b]
+             (Vec3. (/ x (.x v)) (/ y (.y v)) (/ z (.z v))))))
    
    core/Cartesian
    (dot [_ v] (+ (* x (.x v)) (* y (.y v)) (* z (.z v))))
@@ -164,7 +176,7 @@
   (instance? Vec2 v))
 
 (defn vec3?
-  "Returns true if 'v' is a 2-vector"
+  "Returns true if 'v' is a 3-vector"
   [v]
   (instance? Vec3 v))
 

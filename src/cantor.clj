@@ -12,10 +12,34 @@
 ;;;
 
 (defprotocol Arithmetic
-  (add [a b])
-  (sub [a] [a b])
-  (mul [a b])
-  (div [a b]))
+  (add- [a] [a b])
+  (sub- [a] [a b])
+  (mul- [a] [a b])
+  (div- [a] [a b]))
+
+(defn add
+  ([a] (add- a))
+  ([a b] (add- a b))
+  ([a b c] (->> a (add b) (add c)))
+  ([a b c & rest] (add (add a b c) (apply add rest))))
+
+(defn sub
+  ([a] (sub- a))
+  ([a b] (sub- a b))
+  ([a b c] (-> a (sub b) (sub c)))
+  ([a b c & rest] (sub (sub a b c) (apply add rest))))
+
+(defn mul
+  ([a] (mul- a))
+  ([a b] (mul- a b))
+  ([a b c] (->> a (mul b) (mul c)))
+  ([a b c & rest] (mul (mul a b c) (apply mul rest))))
+
+(defn div
+  ([a] (div- a))
+  ([a b] (div- a b))
+  ([a b c] (-> a (div b) (div c)))
+  ([a b c & rest] (div (div a b c) (apply mul rest))))
 
 (defprotocol Cartesian
   (dot [a b])
@@ -93,8 +117,12 @@
 
 (extend-numbers
  Arithmetic
- (add [a b] (+ a b))
- (sub [a b] (- a b))
- (mul [a b] (* a b))
- (div [a b] (/ a b)))
+ (add- [a] a)
+ (add- [a b] (+ a b))
+ (sub- [a] (- a))
+ (sub- [a b] (- a b))
+ (mul- [a] a)
+ (mul- [a b] (* a b))
+ (div- [a] a)
+ (div- [a b] (/ a b)))
 
