@@ -14,6 +14,22 @@
 
 ;;
 
+(defprotocol Arithmetic
+  (add [a] [a b])
+  (sub [a] [a b])
+  (mul [a] [a b])
+  (div [a] [a b]))
+
+(defprotocol Cartesian
+  (dot [a b])
+  (polar [v])
+  (map* [v f] [v f rest]))
+
+(defprotocol Polar
+  (cartesian [p]))
+
+;;
+
 (defmacro- tag-vars [types body]
   (let [types (into {} (map (fn [[k v]] [k (with-meta k (merge (meta k) {:tag v}))]) types))]
     (->> body
@@ -39,40 +55,40 @@
                     0 x
                     1 y))
 
-    core/Arithmetic
-    (add- [this] this)
-    (add- [_ v] (Vec2. (+ x (.x v)) (+ y (.y v))))
-    (sub- [this] (Vec2. (- x) (- y)))
-    (sub- [_ v] (Vec2. (- x (.x v)) (- y (.y v))))
-    (mul- [this] this)
-    (mul- [_ b]
+    Arithmetic
+    (add [this] this)
+    (add [_ v] (Vec2. (+ x (.x v)) (+ y (.y v))))
+    (sub [this] (Vec2. (- x) (- y)))
+    (sub [_ v] (Vec2. (- x (.x v)) (- y (.y v))))
+    (mul [this] this)
+    (mul [_ b]
           (if (number? b)
             (let [b (double b)]
               (Vec2. (* x b) (* y b)))
             (let [v b]
               (Vec2. (* x (.x v)) (* y (.y v))))))
-    (div- [this] this)
-    (div- [_ b]
+    (div [this] this)
+    (div [_ b]
           (if (number? b)
             (let [b (double b)]
               (Vec2. (/ x b) (/ y b)))
             (let [v b]
               (Vec2. (/ x (.x v)) (/ y (.y v))))))
-    core/Cartesian
+    Cartesian
     (dot [_ v] (+ (* x (.x v)) (* y (.y v))))
    
-    (map- [_ f]
+    (map* [_ f]
           (Vec2. (double (f x)) (double (f y))))
-    (map- [v f rest]
+    (map* [v f rest]
           (let [vs (cons v rest)]
             (Vec2. (double (apply f (map #(.x #^Vec2 %) vs)))
                    (double (apply f (map #(.y #^Vec2 %) vs))))))
-    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (core/length v)))))
+    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (Math/sqrt (dot v v))))))
 
 (tag-vars
  {p Polar2}
  (extend-type Polar2
-  core/Polar
+  Polar
   (cartesian [p]
    (let [theta (radians (.theta p))]
      (Vec2. (* (.r p) (Math/cos theta)) (* (.r p) (Math/sin theta)))))))
@@ -95,46 +111,46 @@
                    1 y
                    2 z))
    
-   core/Arithmetic
-   (add- [this] this)
-   (add- [_ v] (Vec3. (+ x (.x v)) (+ y (.y v)) (+ z (.z v))))
-   (sub- [_] (Vec3. (- x) (- y) (- z)))
-   (sub- [_ v] (Vec3. (- x (.x v)) (- y (.y v)) (- z (.z v))))
-   (mul- [this] this)
-   (mul- [_ b]
+   Arithmetic
+   (add [this] this)
+   (add [_ v] (Vec3. (+ x (.x v)) (+ y (.y v)) (+ z (.z v))))
+   (sub [_] (Vec3. (- x) (- y) (- z)))
+   (sub [_ v] (Vec3. (- x (.x v)) (- y (.y v)) (- z (.z v))))
+   (mul [this] this)
+   (mul [_ b]
          (if (number? b)
            (let [b (double b)]
              (Vec3. (* x b) (* y b) (* z b)))
            (let [v b]
              (Vec3. (* x (.x v)) (* y (.y v)) (* z (.z v))))))
-   (div- [this] this)
-   (div- [_ b]
+   (div [this] this)
+   (div [_ b]
          (if (number? b)
            (let [b (double b)]
              (Vec3. (/ x b) (/ y b) (/ z b)))
            (let [v b]
              (Vec3. (/ x (.x v)) (/ y (.y v)) (/ z (.z v))))))
    
-   core/Cartesian
+   Cartesian
    (dot [_ v] (+ (* x (.x v)) (* y (.y v)) (* z (.z v))))
    
-   (map- [_ f]
+   (map* [_ f]
           (Vec3. (double (f x)) (double (f y)) (double (f z))))
-   (map- [v f rest]
+   (map* [v f rest]
          (let [vs (cons v rest)]
            (Vec3. (double (apply f (map #(.x #^Vec3 %) vs)))
                   (double (apply f (map #(.y #^Vec3 %) vs)))
                   (double (apply f (map #(.z #^Vec3 %) vs))))))
    (polar [v]
-          (let [len (core/length v)]
-            (Polar3. (.theta (core/polar (Vec2. x z)))
+          (let [len (Math/sqrt (dot v v))]
+            (Polar3. (.theta (polar (Vec2. x z)))
                      (degrees (Math/asin (/ y len)))
                      len)))))
 
 (tag-vars
  {p Polar3}
  (extend-type Polar3
-  core/Polar
+  Polar
   (cartesian [p]
    (let [theta (radians (.theta p))
          phi (radians (- 90 (.phi p)))

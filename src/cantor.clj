@@ -7,55 +7,45 @@
 ;;   You must not remove this notice, or any other, from this software.
 
 (ns cantor
+  (:require [cantor
+             [vector :as vec]
+             [matrix :as mat]
+             [misc :as misc]])
   (:use [clojure.contrib.def :only (defmacro-)]))
 
 ;;;
 
-(defprotocol Arithmetic
-  (add- [a] [a b])
-  (sub- [a] [a b])
-  (mul- [a] [a b])
-  (div- [a] [a b]))
-
 (defn add
-  ([a] (add- a))
-  ([a b] (add- a b))
+  ([a] (vec/add a))
+  ([a b] (vec/add a b))
   ([a b c] (->> a (add b) (add c)))
   ([a b c & rest] (add (add a b c) (apply add rest))))
 
 (defn sub
-  ([a] (sub- a))
-  ([a b] (sub- a b))
+  ([a] (vec/sub a))
+  ([a b] (vec/sub a b))
   ([a b c] (-> a (sub b) (sub c)))
   ([a b c & rest] (sub (sub a b c) (apply add rest))))
 
 (defn mul
-  ([a] (mul- a))
-  ([a b] (mul- a b))
+  ([a] (vec/mul a))
+  ([a b] (vec/mul a b))
   ([a b c] (->> a (mul b) (mul c)))
   ([a b c & rest] (mul (mul a b c) (apply mul rest))))
 
 (defn div
-  ([a] (div- a))
-  ([a b] (div- a b))
+  ([a] (vec/div a))
+  ([a b] (vec/div a b))
   ([a b c] (-> a (div b) (div c)))
   ([a b c & rest] (div (div a b c) (apply mul rest))))
 
-(defprotocol Cartesian
-  (dot [a b])
-  (polar [v])
-  (map- [v f] [v f rest]))
-
-(defprotocol Polar
-  (cartesian [p]))
-
-(defprotocol Matrix
-  (transform-matrix [a b] "Returns the product of two matrices.")
-  (transform-vector [m v] "Returns a vector transformed by the matrix."))
-
 (defn map*
-  ([f v] (map- v f))
-  ([f v & rest] (map- v f rest)))
+  ([f v] (vec/map* v f))
+  ([f v & rest] (vec/map* v f rest)))
+
+(def dot vec/dot)
+(def polar vec/polar)
+(def cartesian vec/cartesian)
 
 (defn lerp [a b t]
   (add a (mul (sub b a) t)))
@@ -70,11 +60,6 @@
   (div v (length v)))
 
 ;;;
-
-(require '[cantor
-           [vector :as vec]
-           [matrix :as mat]
-           [misc :as misc]])
 
 (def vec2 vec/vec2)
 (def vec3 vec/vec3)
@@ -91,6 +76,8 @@
 
 (def cross vec/cross)
 
+(def transform-matrix mat/transform-matrix)
+(def transform-vector mat/transform-vector)
 (def rotation-matrix mat/rotation-matrix)
 (def identity-matrix mat/identity-matrix)
 (def translation-matrix mat/translation-matrix)
@@ -112,17 +99,16 @@
      (extend-type clojure.lang.Ratio ~@body)))
 
 (extend-numbers
- Polar
+ vec/Polar
  (cartesian [n] (cartesian (polar2 n 1))))
 
 (extend-numbers
- Arithmetic
- (add- [a] a)
- (add- [a b] (+ a b))
- (sub- [a] (- a))
- (sub- [a b] (- a b))
- (mul- [a] a)
- (mul- [a b] (* a b))
- (div- [a] a)
- (div- [a b] (/ a b)))
-
+ vec/Arithmetic
+ (add [a] a)
+ (add [a b] (+ a b))
+ (sub [a] (- a))
+ (sub [a b] (- a b))
+ (mul [a] a)
+ (mul [a b] (* a b))
+ (div [a] a)
+ (div [a b] (/ a b)))

@@ -20,19 +20,28 @@
   
   (testing "Addition"
     (is (= (vec2 3 3) (add a2 b2)))
-    (is (= (vec3 3 3 3) (add a3 b3))))
+    (is (= (vec3 3 3 3) (add a3 b3)))
+    (is (= 5 (add 1 1 1 1 1))))
 
   (testing "Subtraction"
     (is (= a2 (sub b2 a2)))
-    (is (= a3 (sub b3 a3))))
+    (is (= a3 (sub b3 a3)))
+    (is (= 2 (sub 7 1 1 1 1 1))))
 
   (testing "Multiplication"
     (is (= b2 (mul a2 b2)))
-    (is (= b3 (mul a3 b3))))
+    (is (= b3 (mul a3 b3)))
+    (is (= b2 (mul a2 2)))
+    (is (= b3 (mul a3 2)))
+    (is (= 32 (mul 2 2 2 2 2))))
 
   (testing "Division"
     (is (= (vec2 0.5 0.5) (div a2 b2)))
-    (is (= (vec3 0.5 0.5 0.5) (div a3 b3))))
+    (is (= (vec3 0.5 0.5 0.5) (div a3 b3)))
+    (is (= 1 (div 32 2 2 2 2 2))))
 
-  (is (= 5 (length (vec2 3 4))))
-  (is (= 5 (length (vec3 0 3 )))))
+  (testing "Length"
+    (is (= 5 (length (vec2 3 4))))
+    (is (= 5 (length (vec3 0 3 4)))))
+
+  )
