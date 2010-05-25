@@ -13,83 +13,114 @@
              [misc :as misc]])
   (:use [clojure.contrib.def :only (defmacro-)]))
 
-;;;
+;;
+
+(defmacro- import-fn [sym]
+  (let [m (meta (eval sym))
+        m (meta (intern (:ns m) (:name m)))
+        n (:name m)
+        arglists (:arglists m)
+        doc (:doc m)]
+    (list `def (with-meta n {:doc doc :arglists (list 'quote arglists)}) (eval sym))))
+
+;; arithmetic operators
 
 (defn add
+  "Add together scalars or vectors of equal dimension."
   ([a] (vec/add a))
   ([a b] (vec/add a b))
   ([a b c] (->> a (add b) (add c)))
   ([a b c & rest] (add (add a b c) (apply add rest))))
 
 (defn sub
+  "Subtract scalars or vectors of equal dimension.
+
+  (- a b c) is equivalent to (- (- a b) c)"
   ([a] (vec/sub a))
   ([a b] (vec/sub a b))
   ([a b c] (-> a (sub b) (sub c)))
   ([a b c & rest] (sub (sub a b c) (apply add rest))))
 
 (defn mul
+  "Multiplies together a list of scalars, or a vector followed by any combination of
+   scalars and vectors of the same dimension."
   ([a] (vec/mul a))
   ([a b] (vec/mul a b))
   ([a b c] (->> a (mul b) (mul c)))
   ([a b c & rest] (mul (mul a b c) (apply mul rest))))
 
 (defn div
+  "Divides a list of scalars, or a vector followed by any combination of scalars and
+   vectors of the same dimension.
+
+  (/ a b c) = (/ (/ a b) c)"
   ([a] (vec/div a))
   ([a b] (vec/div a b))
   ([a b c] (-> a (div b) (div c)))
   ([a b c & rest] (div (div a b c) (apply mul rest))))
 
 (defn map*
+  "Equivalent to map, but returns a vector of the same dimension as the input type."
   ([f v] (vec/map* v f))
   ([f v & rest] (vec/map* v f rest)))
 
-(def dot vec/dot)
-(def polar vec/polar)
-(def cartesian vec/cartesian)
+(import-fn #'vec/dot)
+(import-fn #'vec/polar)
+(import-fn #'vec/cartesian)
 
-(defn lerp [a b t]
+(defn lerp
+  "Linear interpolation between a and b, where t=0 is a, and t=1 is b."
+  [a b t]
   (add a (mul (sub b a) t)))
 
-(defn length-squared [v]
+(defn length-squared
+  "Calculates the length squared of v.  Significantly more efficient than (length v)."
+  [v]
   (dot v v))
 
-(defn length [v]
+(defn length
+  "Calculates the length of v."
+  [v]
   (Math/sqrt (length-squared v)))
 
-(defn normalize [v]
+(defn normalize
+  "Normalizes v, such that its direction remains the same, but its length is 1."
+  [v]
   (div v (length v)))
 
-;;;
+;; constuctors
 
-(def vec2 vec/vec2)
-(def vec3 vec/vec3)
-(def polar2 vec/polar2)
-(def polar3 vec/polar3)
+(import-fn vec/vec2)
+(import-fn vec/vec3)
+(import-fn vec/polar2)
+(import-fn vec/polar3)
 
-(def vec? vec/vec?)
-(def vec2? vec/vec2?)
-(def vec3? vec/vec3?)
+(import-fn vec/vec?)
+(import-fn vec/vec2?)
+(import-fn vec/vec3?)
 
-(def polar? vec/polar?)
-(def polar2? vec/polar2?)
-(def polar3? vec/polar3?)
+(import-fn vec/polar?)
+(import-fn vec/polar2?)
+(import-fn vec/polar3?)
 
-(def cross vec/cross)
+(import-fn vec/cross)
 
-(def transform-matrix mat/transform-matrix)
-(def transform-vector mat/transform-vector)
-(def rotation-matrix mat/rotation-matrix)
-(def identity-matrix mat/identity-matrix)
-(def translation-matrix mat/translation-matrix)
-(def scaling-matrix mat/scaling-matrix)
-(def normal-matrix mat/normal-matrix)
+(import-fn #'mat/transform-matrix)
+(import-fn #'mat/transform-vector)
+(import-fn mat/rotation-matrix)
+(import-fn mat/identity-matrix)
+(import-fn mat/translation-matrix)
+(import-fn mat/scaling-matrix)
+(import-fn mat/normal-matrix)
 
-(def prime-factors misc/prime-factors)
-(def rectangle-factors misc/rectangle-factors)
-(def radians misc/radians)
-(def degrees misc/degrees)
+;; misc
 
-;;;
+(import-fn misc/prime-factors)
+(import-fn misc/rectangle-factors)
+(import-fn misc/radians)
+(import-fn misc/degrees)
+
+;;
 
 (defmacro- extend-numbers [& body]
   `(do
