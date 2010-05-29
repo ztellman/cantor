@@ -50,7 +50,7 @@ namespace.
     <div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor/add">add</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
-      <a href="#cantor/all*">all*</a>
+      <a href="#cantor/all?">all?</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor/box2?">box2?</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
@@ -82,6 +82,16 @@ namespace.
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor/normalize">normalize</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/polar2">polar2</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/polar2?">polar2?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/polar3">polar3</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/polar3?">polar3?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/polar?">polar?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor/prime-factors">prime-factors</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor/radians">radians</a>
@@ -99,6 +109,16 @@ namespace.
       <a href="#cantor/transform-vector">transform-vector</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor/translation-matrix">translation-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/vec2">vec2</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/vec2?">vec2?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/vec3">vec3</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/vec3?">vec3?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/vec?">vec?</a>
     </div>
     <br />
   </div><div style="margin-left: 1em;" class="toc-section">
@@ -134,7 +154,7 @@ namespace.
   </div><div style="margin-left: 1em;" class="toc-section">
     <a href="#cantor.shape">cantor.shape</a>
     <div style="margin-left: 1em;" class="toc-entry">
-      <a href="#cantor.shape/all*">all*</a>
+      <a href="#cantor.shape/all?">all?</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
       <a href="#cantor.shape/box2?">box2?</a>
     </div><div style="margin-left: 1em;" class="toc-entry">
@@ -202,10 +222,10 @@ by <span id="author">Unknown</span><br />
 </div><div id="var-entry">
   <br />
   <hr />
-  <h2 id="cantor/all*">all*</h2>
+  <h2 id="cantor/all?">all?</h2>
   <span id="var-type">function</span><br />
-  <pre id="var-usage">Usage: (all* f a)
-       (all* f a b)
+  <pre id="var-usage">Usage: (all? f a)
+       (all? f a b)
 </pre>
   <pre id="var-docstr">Returns true if all components of the input vector satisfy 'f'.</pre>
   
@@ -359,6 +379,55 @@ scalars and vectors of the same dimension.</pre>
 </div><div id="var-entry">
   <br />
   <hr />
+  <h2 id="cantor/polar2">polar2</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar2 theta)
+       (polar2 theta r)
+</pre>
+  <pre id="var-docstr">Creates a 2-D polar coordinate.
+(polar theta) =&gt; (polar theta 1)</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/polar2?">polar2?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar2? p)
+</pre>
+  <pre id="var-docstr">Returns true if 'p' is a 2-vector in polar coordinates</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/polar3">polar3</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar3 theta phi)
+       (polar3 theta phi r)
+</pre>
+  <pre id="var-docstr">Creates a 3-D polar coordinate.
+(polar3 theta phi) =&gt; (polar3 theta phi 1)</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/polar3?">polar3?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar3? p)
+</pre>
+  <pre id="var-docstr">Returns true if 'p' is a 3-vector in polar coordinates</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/polar?">polar?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar? p)
+</pre>
+  <pre id="var-docstr">Returns true if 'p' is a polar coordinate.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
   <h2 id="cantor/prime-factors">prime-factors</h2>
   <span id="var-type">function</span><br />
   <pre id="var-usage">Usage: (prime-factors n)
@@ -446,6 +515,53 @@ the specified axis.</pre>
        (translation-matrix x y z)
 </pre>
   <pre id="var-docstr">Returns a matrix which offsets vectors by the input values.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/vec2">vec2</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec2 x y)
+</pre>
+  <pre id="var-docstr">Creates a 2-vector.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/vec2?">vec2?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec2? v)
+</pre>
+  <pre id="var-docstr">Returns true if 'v' is a 2-vector</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/vec3">vec3</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec3 v z)
+       (vec3 x y z)
+</pre>
+  <pre id="var-docstr">Creates a 3-vector.
+(vec3 (vec2 x y) z) =&gt; (vec3 x y z)</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/vec3?">vec3?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec3? v)
+</pre>
+  <pre id="var-docstr">Returns true if 'v' is a 3-vector</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/vec?">vec?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec? v)
+</pre>
+  <pre id="var-docstr">Returns true if 'v' is a vector.</pre>
   
 </div>
 <h2 id="namespace-name">cantor.matrix</h2>
@@ -555,10 +671,10 @@ x and y should be relatively close to each other in value.</pre>
 <br />
 <div id="var-entry">
   <hr />
-  <h2 id="cantor.shape/all*">all*</h2>
+  <h2 id="cantor.shape/all?">all?</h2>
   <span id="var-type">function</span><br />
-  <pre id="var-usage">Usage: (all* f a)
-       (all* f a b)
+  <pre id="var-usage">Usage: (all? f a)
+       (all? f a b)
 </pre>
   <pre id="var-docstr">Returns true if all components of the input vector satisfy 'f'.</pre>
   
