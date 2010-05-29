@@ -1,0 +1,722 @@
+<html>
+  <head>
+    <title>cantor API reference (cantor)</title>
+    <link href="static/favicon.png" rel="icon" />
+    <link href="static/favicon.png" rel="shortcut icon" />
+    <link media="all" type="text/css" href="static/clojure.css" rel="stylesheet" />
+    <link media="all" type="text/css" href="static/wiki.css" rel="stylesheet" />
+    <link media="all" type="text/css" href="static/internal.css" rel="stylesheet" />
+    <!-- TODO: are we using these (from clojure.org)? If so, add the files -->
+    <script src="file/view/code_highlighter.js" type="text/javascript"></script>
+    <script src="file/view/clojure.js" type="text/javascript"></script>
+    <style>.menuWrapper{height: 36px;}</style>
+    <!--[if lte IE 6]>
+    <link rel="stylesheet" href="http://www.wikispaces.com/_/2009051601/s/internal_ie.css" type="text/css" />
+    <![endif]-->
+  </head>
+<!--
+This document was auto-generated from the source by the clojure autodoc system.
+To report errors or ask questions about the overall documentation structure, formatting,
+etc., contact Tom Faulhaber (google mail name: tomfaulhaber).
+For errors in the documentation of a particular namespace, contact the author of that
+namespace.
+-->
+  <body>
+    <div id="AllContentContainer">
+      <div id="Header">
+	<a id="Logo" href="index.html"><img alt="Clojure" height="100" width="100" src="static/clojure-icon.gif" /></a>
+	<h1><a title="page header title" id="page-header" href="index.html">cantor</a></h1>
+      </div>
+      <div id="leftcolumn"><div style="text-align: center;"></div>
+<div class="menu">
+  <div class="WikiCustomNav WikiElement wiki">
+    <a class="wiki_link" href="index.html">Overview</a><br />
+    <a class="wiki_link" href="api-index.html">API Index</a><br />
+    <a class="wiki_link" href="#">Namespaces:</a>
+    <ul id="left-sidebar-list">
+      <li><a href="cantor-api.html" class="wiki_link">cantor</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+      <div id="rightcolumn">
+	<div id="Content">
+	  <div class="contentBox"><div class="innerContentBox">
+              <div id="content_view" class="wiki wikiPage">
+                <div id="right-sidebar"><div id="toc">
+  <h1 class="nopad">Table of Contents</h1>
+  <div style="margin-left: 1em;" class="toc-section">
+    <a href="#toc0">Overview</a>
+    <div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/add">add</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/all*">all*</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/box2?">box2?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/box3">box3</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/box3?">box3?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/box?">box?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/cross">cross</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/degrees">degrees</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/div">div</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/identity-matrix">identity-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/length">length</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/length-squared">length-squared</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/lerp">lerp</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/map*">map*</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/mul">mul</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/normal-matrix">normal-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/normalize">normalize</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/prime-factors">prime-factors</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/radians">radians</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/rectangle-factors">rectangle-factors</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/rotation-matrix">rotation-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/scaling-matrix">scaling-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/sub">sub</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/transform-matrix">transform-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/transform-vector">transform-vector</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor/translation-matrix">translation-matrix</a>
+    </div>
+    <br />
+  </div><div style="margin-left: 1em;" class="toc-section">
+    <a href="#cantor.matrix">cantor.matrix</a>
+    <div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/identity-matrix">identity-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/normal-matrix">normal-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/rotation-matrix">rotation-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/scaling-matrix">scaling-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/transform-matrix">transform-matrix</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/transform-vector">transform-vector</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.matrix/translation-matrix">translation-matrix</a>
+    </div>
+    <br />
+  </div><div style="margin-left: 1em;" class="toc-section">
+    <a href="#cantor.misc">cantor.misc</a>
+    <div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.misc/degrees">degrees</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.misc/prime-factors">prime-factors</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.misc/radians">radians</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.misc/rectangle-factors">rectangle-factors</a>
+    </div>
+    <br />
+  </div><div style="margin-left: 1em;" class="toc-section">
+    <a href="#cantor.shape">cantor.shape</a>
+    <div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.shape/all*">all*</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.shape/box2?">box2?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.shape/box3">box3</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.shape/box3?">box3?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.shape/box?">box?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.shape/map*">map*</a>
+    </div>
+    <br />
+  </div><div style="margin-left: 1em;" class="toc-section">
+    <a href="#cantor.vector">cantor.vector</a>
+    <div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/cross">cross</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/polar2">polar2</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/polar2?">polar2?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/polar3">polar3</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/polar3?">polar3?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/polar?">polar?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/vec2">vec2</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/vec2?">vec2?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/vec3">vec3</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/vec3?">vec3?</a>
+    </div><div style="margin-left: 1em;" class="toc-entry">
+      <a href="#cantor.vector/vec?">vec?</a>
+    </div>
+    <br />
+  </div>
+</div>
+</div>
+                <div id="content-tag"><h1 id="overview">API for <span id="namespace-name">cantor</span></h1>
+by <span id="author">Unknown</span><br />
+<br />Usage:
+<pre>
+(ns your-namespace
+  (:require <span id="long-name">cantor</span>))
+</pre><pre>
+</pre><h2>Overview</h2>
+<pre id="namespace-docstr"></pre>
+<br />
+<h2>Public Variables and Functions</h2>
+<div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/add">add</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (add a)
+       (add a b)
+       (add a b c)
+       (add a b c &amp; rest)
+</pre>
+  <pre id="var-docstr">Add together scalars or vectors of equal dimension.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/all*">all*</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (all* f a)
+       (all* f a b)
+</pre>
+  <pre id="var-docstr">Returns true if all components of the input vector satisfy 'f'.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/box2?">box2?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box2? b)
+</pre>
+  <pre id="var-docstr">Returns true if 'b' is a 2-D box.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/box3">box3</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box3 ul lr)
+</pre>
+  <pre id="var-docstr">Creates a 3-D box.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/box3?">box3?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box3? b)
+</pre>
+  <pre id="var-docstr">Returns true if 'b' is a 3-D box.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/box?">box?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box? b)
+</pre>
+  <pre id="var-docstr">Returns true if 'b' is a box.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/cross">cross</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (cross a b)
+</pre>
+  <pre id="var-docstr">Returns the cross product of two 3-vectors.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/degrees">degrees</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (degrees x)
+</pre>
+  <pre id="var-docstr">Transforms radians to degrees.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/div">div</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (div a)
+       (div a b)
+       (div a b c)
+       (div a b c &amp; rest)
+</pre>
+  <pre id="var-docstr">Divides a list of scalars, or a vector followed by any combination of scalars and
+vectors of the same dimension.
+
+(/ a b c) = (/ (/ a b) c)</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/identity-matrix">identity-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (identity-matrix)
+       (identity-matrix dim)
+</pre>
+  <pre id="var-docstr">Creates an identity matrix.  The default result is a 4x4 matrix.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/length">length</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (length v)
+</pre>
+  <pre id="var-docstr">Calculates the length of v.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/length-squared">length-squared</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (length-squared v)
+</pre>
+  <pre id="var-docstr">Calculates the length squared of v.  Significantly more efficient than (length v).</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/lerp">lerp</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (lerp a b t)
+</pre>
+  <pre id="var-docstr">Linear interpolation between a and b, where t=0 is a, and t=1 is b.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/map*">map*</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (map* f v)
+       (map* f v &amp; rest)
+</pre>
+  <pre id="var-docstr">Same as map, but returns a vector of the same type as the input(s).</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/mul">mul</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (mul a)
+       (mul a b)
+       (mul a b c)
+       (mul a b c &amp; rest)
+</pre>
+  <pre id="var-docstr">Multiplies together a list of scalars, or a vector followed by any combination of
+scalars and vectors of the same dimension.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/normal-matrix">normal-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (normal-matrix m)
+</pre>
+  <pre id="var-docstr">Returns a matrix which is stripped of all translations.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/normalize">normalize</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (normalize v)
+</pre>
+  <pre id="var-docstr">Normalizes v, such that its direction remains the same, but its length is 1.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/prime-factors">prime-factors</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (prime-factors n)
+</pre>
+  <pre id="var-docstr">Returns prime factors of a number</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/radians">radians</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (radians x)
+</pre>
+  <pre id="var-docstr">Transforms degrees to radians.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/rectangle-factors">rectangle-factors</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (rectangle-factors n)
+</pre>
+  <pre id="var-docstr">Returns two values [x y], where x*y == n.
+x and y should be relatively close to each other in value.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/rotation-matrix">rotation-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (rotation-matrix theta)
+       (rotation-matrix theta x y z)
+</pre>
+  <pre id="var-docstr">Returns a matrix which either rotates 2-D vectors about the origin, or 3-D vectors about
+the specified axis.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/scaling-matrix">scaling-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (scaling-matrix x y)
+       (scaling-matrix x y z)
+</pre>
+  <pre id="var-docstr">Returns a matrix which scales vectors by the input values.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/sub">sub</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (sub a)
+       (sub a b)
+       (sub a b c)
+       (sub a b c &amp; rest)
+</pre>
+  <pre id="var-docstr">Subtract scalars or vectors of equal dimension.
+
+(- a b c) is equivalent to (- (- a b) c)</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/transform-matrix">transform-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (transform-matrix a b)
+</pre>
+  <pre id="var-docstr">Returns the product of two matrices.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/transform-vector">transform-vector</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (transform-vector m v)
+</pre>
+  <pre id="var-docstr">Returns a vector transformed by the matrix.</pre>
+  
+</div><div id="var-entry">
+  <br />
+  <hr />
+  <h2 id="cantor/translation-matrix">translation-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (translation-matrix x y)
+       (translation-matrix x y z)
+</pre>
+  <pre id="var-docstr">Returns a matrix which offsets vectors by the input values.</pre>
+  
+</div>
+<h2 id="namespace-name">cantor.matrix</h2>
+<pre id="namespace-docstr"></pre>
+<br />
+<div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/identity-matrix">identity-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (identity-matrix)
+       (identity-matrix dim)
+</pre>
+  <pre id="var-docstr">Creates an identity matrix.  The default result is a 4x4 matrix.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/normal-matrix">normal-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (normal-matrix m)
+</pre>
+  <pre id="var-docstr">Returns a matrix which is stripped of all translations.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/rotation-matrix">rotation-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (rotation-matrix theta)
+       (rotation-matrix theta x y z)
+</pre>
+  <pre id="var-docstr">Returns a matrix which either rotates 2-D vectors about the origin, or 3-D vectors about
+the specified axis.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/scaling-matrix">scaling-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (scaling-matrix x y)
+       (scaling-matrix x y z)
+</pre>
+  <pre id="var-docstr">Returns a matrix which scales vectors by the input values.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/transform-matrix">transform-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (transform-matrix a b)
+</pre>
+  <pre id="var-docstr">Returns the product of two matrices.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/transform-vector">transform-vector</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (transform-vector m v)
+</pre>
+  <pre id="var-docstr">Returns a vector transformed by the matrix.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.matrix/translation-matrix">translation-matrix</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (translation-matrix x y)
+       (translation-matrix x y z)
+</pre>
+  <pre id="var-docstr">Returns a matrix which offsets vectors by the input values.</pre>
+  
+</div>
+<h2 id="namespace-name">cantor.misc</h2>
+<pre id="namespace-docstr"></pre>
+<br />
+<div id="var-entry">
+  <hr />
+  <h2 id="cantor.misc/degrees">degrees</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (degrees x)
+</pre>
+  <pre id="var-docstr">Transforms radians to degrees.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.misc/prime-factors">prime-factors</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (prime-factors n)
+</pre>
+  <pre id="var-docstr">Returns prime factors of a number</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.misc/radians">radians</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (radians x)
+</pre>
+  <pre id="var-docstr">Transforms degrees to radians.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.misc/rectangle-factors">rectangle-factors</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (rectangle-factors n)
+</pre>
+  <pre id="var-docstr">Returns two values [x y], where x*y == n.
+x and y should be relatively close to each other in value.</pre>
+  
+</div>
+<h2 id="namespace-name">cantor.shape</h2>
+<pre id="namespace-docstr"></pre>
+<br />
+<div id="var-entry">
+  <hr />
+  <h2 id="cantor.shape/all*">all*</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (all* f a)
+       (all* f a b)
+</pre>
+  <pre id="var-docstr">Returns true if all components of the input vector satisfy 'f'.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.shape/box2?">box2?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box2? b)
+</pre>
+  <pre id="var-docstr">Returns true if 'b' is a 2-D box.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.shape/box3">box3</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box3 ul lr)
+</pre>
+  <pre id="var-docstr">Creates a 3-D box.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.shape/box3?">box3?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box3? b)
+</pre>
+  <pre id="var-docstr">Returns true if 'b' is a 3-D box.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.shape/box?">box?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (box? b)
+</pre>
+  <pre id="var-docstr">Returns true if 'b' is a box.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.shape/map*">map*</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (map* f v)
+       (map* f v &amp; rest)
+</pre>
+  <pre id="var-docstr">Same as map, but returns a vector of the same type as the input(s).</pre>
+  
+</div>
+<h2 id="namespace-name">cantor.vector</h2>
+<pre id="namespace-docstr"></pre>
+<br />
+<div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/cross">cross</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (cross a b)
+</pre>
+  <pre id="var-docstr">Returns the cross product of two 3-vectors.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/polar2">polar2</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar2 theta)
+       (polar2 theta r)
+</pre>
+  <pre id="var-docstr">Creates a 2-D polar coordinate.
+(polar theta) =&gt; (polar theta 1)</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/polar2?">polar2?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar2? p)
+</pre>
+  <pre id="var-docstr">Returns true if 'p' is a 2-vector in polar coordinates</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/polar3">polar3</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar3 theta phi)
+       (polar3 theta phi r)
+</pre>
+  <pre id="var-docstr">Creates a 3-D polar coordinate.
+(polar3 theta phi) =&gt; (polar3 theta phi 1)</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/polar3?">polar3?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar3? p)
+</pre>
+  <pre id="var-docstr">Returns true if 'p' is a 3-vector in polar coordinates</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/polar?">polar?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (polar? p)
+</pre>
+  <pre id="var-docstr">Returns true if 'p' is a polar coordinate.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/vec2">vec2</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec2 x y)
+</pre>
+  <pre id="var-docstr">Creates a 2-vector.</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/vec2?">vec2?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec2? v)
+</pre>
+  <pre id="var-docstr">Returns true if 'v' is a 2-vector</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/vec3">vec3</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec3 v z)
+       (vec3 x y z)
+</pre>
+  <pre id="var-docstr">Creates a 3-vector.
+(vec3 (vec2 x y) z) =&gt; (vec3 x y z)</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/vec3?">vec3?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec3? v)
+</pre>
+  <pre id="var-docstr">Returns true if 'v' is a 3-vector</pre>
+  
+</div><div id="var-entry">
+  <hr />
+  <h2 id="cantor.vector/vec?">vec?</h2>
+  <span id="var-type">function</span><br />
+  <pre id="var-usage">Usage: (vec? v)
+</pre>
+  <pre id="var-docstr">Returns true if 'v' is a vector.</pre>
+  
+</div>
+
+
+</div>
+              </div>
+            </div>
+          </div>
+	</div>
+	<div id="foot">
+	  <div style="text-align: center;" id="copyright">No copyright info </div>
+	</div>
+      </div>
+      <div id="DesignedBy">Logo &amp; site design by <a title="Visit Tom Hickey's website." href="http://www.tomhickey.com">Tom Hickey</a>.<br />
+      Clojure auto-documentation system by Tom Faulhaber.</div>
+    </div>
+    <!-- /AllContentContainer -->
+  </body>
+
+</html>
