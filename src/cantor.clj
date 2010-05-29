@@ -86,19 +86,18 @@
 
 ;; constructors
 
-(comment
-  (import-fn vec/vec2)
-  (import-fn vec/vec3)
-  (import-fn vec/polar2)
-  (import-fn vec/polar3)
+(import-fn vec/vec2)
+(import-fn vec/vec3)
+(import-fn vec/polar2)
+(import-fn vec/polar3)
 
-  (import-fn vec/vec?)
-  (import-fn vec/vec2?)
-  (import-fn vec/vec3?)
+(import-fn vec/vec?)
+(import-fn vec/vec2?)
+(import-fn vec/vec3?)
 
-  (import-fn vec/polar?)
-  (import-fn vec/polar2?)
-  (import-fn vec/polar3?))
+(import-fn vec/polar?)
+(import-fn vec/polar2?)
+(import-fn vec/polar3?)
 
 (import-fn sh/box2)
 (import-fn sh/box3)
@@ -121,7 +120,7 @@
 ;; shape
 
 (import-fn sh/map*)
-(import-fn sh/all*)
+(import-fn sh/all?)
 (import-fn #'sh/intersects?)
 
 ;; misc

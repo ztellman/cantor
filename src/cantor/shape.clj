@@ -25,7 +25,7 @@
   ([f v] (vec/map* v f))
   ([f v & rest] (vec/map* v f rest)))
 
-(defn all*
+(defn all?
   "Returns true if all components of the input vector satisfy 'f'."
   ([f a] (vec/all* a f))
   ([f a b] (vec/all* a b f)))
@@ -43,8 +43,8 @@
  {a Box2, b Box2}
  (defn- box2-box2-intersects? [a b]
    (and
-    (all* >= (.lr a) (.ul b))
-    (all* <= (.ul a) (.lr b)))))
+    (all? >= (.lr a) (.ul b))
+    (all? <= (.ul a) (.lr b)))))
 
 (extend-type Box2
   Shape
@@ -71,8 +71,8 @@
  {a Box3, b Box3}
  (defn- box3-box3-intersects? [a b]
    (and
-    (all* >= (.lr a) (.ul b))
-    (all* <= (.ul a) (.lr b)))))
+    (all? >= (.lr a) (.ul b))
+    (all? <= (.ul a) (.lr b)))))
 
 (extend-type Box3
   Shape
