@@ -10,14 +10,9 @@
   (:use [cantor misc]
         [clojure.contrib.def :only (defmacro-)]
         [clojure.walk :only (postwalk postwalk-replace)])
-  (:require [cantor :as core])
   (:import [cantor.vector Vec3 Vec2]))
 
-;;
-
-(defprotocol Matrix
-  (transform-matrix [a b] "Returns the product of two matrices.")
-  (transform-vector [m v] "Returns a vector transformed by the matrix."))
+;;;
 
 (defmacro- tag-vars [types body]
   (let [types (into {} (map (fn [[k v]] [k (with-meta k (merge (meta k) {:tag v}))]) types))]
@@ -25,48 +20,75 @@
          (postwalk-replace types)
          (postwalk #(if (vector? %) (postwalk-replace (zipmap (vals types) (keys types)) %) %)))))
 
-(defmacro- transform-matrix- [constructor dim]
-  (let [index (fn [m x y] (list (symbol (str ".m" x y)) m))]
-    (list*
-     constructor
-     (map
-      (fn [[i j]]
-        (list* `+ (map (fn [k] (list `* (index 'a k i) (index 'b j k))) (range dim))))
-      (for [i (range dim) j (range dim)] [i j])))))
+;;;
+
+(defprotocol Matrix
+  (transform-matrix [a b] "Returns the product of two matrices.")
+  (transform-vector [m v] "Returns a vector transformed by the matrix."))
+
+;;;
+
+(defrecord Matrix44
+  [#^double m00 #^double m10 #^double m20 #^double m30
+   #^double m01 #^double m11 #^double m21 #^double m31
+   #^double m02 #^double m12 #^double m22 #^double m32
+   #^double m03 #^double m13 #^double m23 #^double m33])
 
 (tag-vars
- {v Vec3
-  a Matrix44
-  b Matrix44}
- (defrecord Matrix44 [#^double m00 #^double m10 #^double m20 #^double m30
-                      #^double m01 #^double m11 #^double m21 #^double m31
-                      #^double m02 #^double m12 #^double m22 #^double m32
-                      #^double m03 #^double m13 #^double m23 #^double m33]
-   Matrix
-   (transform-vector
-    [_ v]
-    (Vec3. (+ (* (.x v) m00) (* (.y v) m10) (* (.z v) m20) m30)
-           (+ (* (.x v) m01) (* (.y v) m11) (* (.z v) m21) m31)
-           (+ (* (.x v) m02) (* (.y v) m12) (* (.z v) m22) m32)))
-   (transform-matrix
-    [a b]
-    (transform-matrix- `Matrix44. 4))))
+ {a Matrix44, b Matrix44, m Matrix44}
+ (defmacro- transform-matrix44- []
+   (let [index (fn [m x y] (list (symbol (str ".m" x y)) m))]
+     (list*
+      `Matrix44.
+      (map
+       (fn [[i j]]
+         (list* `+ (map (fn [k] (list `* (index 'a k i) (index 'b j k))) (range 3))))
+       (for [i (range 4) j (range 4)] [i j]))))))
 
 (tag-vars
- {v Vec2
-  a Matrix33
-  b Matrix33}
- (defrecord Matrix33 [#^double m00 #^double m10 #^double m20
-                      #^double m01 #^double m11 #^double m21
-                      #^double m02 #^double m12 #^double m22]
+ {m Matrix44, v Vec3}
+ (extend-type Matrix44
    Matrix
    (transform-vector
-    [_ v]
-    (Vec2. (+ (* (.x v) m00) (* (.y v) m10)) 
-           (+ (* (.x v) m01) (* (.y v) m11))))
+    [m v]
+    (Vec3. (+ (* (.x v) (.m00 m)) (* (.y v) (.m10 m)) (* (.z v) (.m20 m)) (.m30 m))
+           (+ (* (.x v) (.m01 m)) (* (.y v) (.m11 m)) (* (.z v) (.m21 m)) (.m31 m))
+           (+ (* (.x v) (.m02 m)) (* (.y v) (.m12 m)) (* (.z v) (.m22 m)) (.m32 m))))
    (transform-matrix
     [a b]
-    (transform-matrix- `Matrix33. 3))))
+    (transform-matrix44-))))
+
+;;;
+
+(defrecord Matrix33
+  [#^double m00 #^double m10 #^double m20
+   #^double m01 #^double m11 #^double m21
+   #^double m02 #^double m12 #^double m22])
+
+(tag-vars
+ {a Matrix33, b Matrix33, m Matrix33}
+ (defmacro- transform-matrix33- []
+   (let [index (fn [m x y] (list (symbol (str ".m" x y)) m))]
+     (list*
+      `Matrix33.
+      (map
+       (fn [[i j]]
+         (list* `+ (map (fn [k] (list `* (index 'a k i) (index 'b j k))) (range 3))))
+       (for [i (range 3) j (range 3)] [i j]))))))
+
+(tag-vars
+ {m Matrix33, v Vec2}
+ (extend-type Matrix33
+   Matrix
+   (transform-vector
+    [m v]
+    (Vec2. (+ (* (.x v) (.m00 m)) (* (.y v) (.m10 m)) (.m20 m)) 
+           (+ (* (.x v) (.m01 m)) (* (.y v) (.m11 m)) (.m21 m))))
+   (transform-matrix
+    [a b]
+    (transform-matrix33-))))
+
+;;;
 
 (defn identity-matrix
   "Creates an identity matrix.  The default result is a 4x4 matrix."

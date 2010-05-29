@@ -10,7 +10,8 @@
   (:require [cantor
              [vector :as vec]
              [matrix :as mat]
-             [misc :as misc]])
+             [misc :as misc]
+             [shape :as sh]])
   (:use [clojure.contrib.def :only (defmacro-)]))
 
 ;;
@@ -35,7 +36,7 @@
 (defn sub
   "Subtract scalars or vectors of equal dimension.
 
-  (- a b c) is equivalent to (- (- a b) c)"
+   (- a b c) is equivalent to (- (- a b) c)"
   ([a] (vec/sub a))
   ([a b] (vec/sub a b))
   ([a b c] (-> a (sub b) (sub c)))
@@ -53,16 +54,11 @@
   "Divides a list of scalars, or a vector followed by any combination of scalars and
    vectors of the same dimension.
 
-  (/ a b c) = (/ (/ a b) c)"
+   (/ a b c) = (/ (/ a b) c)"
   ([a] (vec/div a))
   ([a b] (vec/div a b))
   ([a b c] (-> a (div b) (div c)))
   ([a b c & rest] (div (div a b c) (apply mul rest))))
-
-(defn map*
-  "Equivalent to map, but returns a vector of the same dimension as the input type."
-  ([f v] (vec/map* v f))
-  ([f v & rest] (vec/map* v f rest)))
 
 (import-fn #'vec/dot)
 (import-fn #'vec/polar)
@@ -88,20 +84,29 @@
   [v]
   (div v (length v)))
 
-;; constuctors
+;; constructors
 
-(import-fn vec/vec2)
-(import-fn vec/vec3)
-(import-fn vec/polar2)
-(import-fn vec/polar3)
+(comment
+  (import-fn vec/vec2)
+  (import-fn vec/vec3)
+  (import-fn vec/polar2)
+  (import-fn vec/polar3)
 
-(import-fn vec/vec?)
-(import-fn vec/vec2?)
-(import-fn vec/vec3?)
+  (import-fn vec/vec?)
+  (import-fn vec/vec2?)
+  (import-fn vec/vec3?)
 
-(import-fn vec/polar?)
-(import-fn vec/polar2?)
-(import-fn vec/polar3?)
+  (import-fn vec/polar?)
+  (import-fn vec/polar2?)
+  (import-fn vec/polar3?))
+
+(import-fn sh/box2)
+(import-fn sh/box3)
+(import-fn sh/box?)
+(import-fn sh/box2?)
+(import-fn sh/box3?)
+
+;; geometry
 
 (import-fn vec/cross)
 
@@ -112,6 +117,12 @@
 (import-fn mat/translation-matrix)
 (import-fn mat/scaling-matrix)
 (import-fn mat/normal-matrix)
+
+;; shape
+
+(import-fn sh/map*)
+(import-fn sh/all*)
+(import-fn #'sh/intersects?)
 
 ;; misc
 
@@ -129,7 +140,7 @@
      (extend-type java.lang.Float ~@body)
      (extend-type clojure.lang.Ratio ~@body)))
 
-(extend-numbers
+'(extend-numbers
  vec/Polar
  (cartesian [n] (cartesian (polar2 n 1))))
 

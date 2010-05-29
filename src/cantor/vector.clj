@@ -7,12 +7,11 @@
 ;;   You must not remove this notice, or any other, from this software.
 
 (ns cantor.vector
-  (:use [cantor misc]
-        [clojure.contrib.def :only (defmacro-)]
-        [clojure.walk :only (postwalk postwalk-replace)])
-  (:require [cantor :as core]))
+  (:use [clojure.contrib.def :only (defmacro-)]
+        [clojure.walk :only (postwalk postwalk-replace)]
+        [cantor.misc :only (radians degrees)]))
 
-;;
+;;;
 
 (defprotocol Arithmetic
   (add [a] [a b])
@@ -23,18 +22,21 @@
 (defprotocol Cartesian
   (dot [a b])
   (polar [v])
-  (map* [v f] [v f rest]))
+  (map* [v f] [v f rest])
+  (all* [v f] [a b f]))
 
 (defprotocol Polar
   (cartesian [p]))
 
-;;
+;;;
 
 (defmacro- tag-vars [types body]
   (let [types (into {} (map (fn [[k v]] [k (with-meta k (merge (meta k) {:tag v}))]) types))]
     (->> body
          (postwalk-replace types)
          (postwalk #(if (vector? %) (postwalk-replace (zipmap (vals types) (keys types)) %) %)))))
+
+;;;
 
 (defmacro- replace-symbols [symbols body]
   (postwalk-replace symbols body))
@@ -83,7 +85,9 @@
           (let [vs (cons v rest)]
             (Vec2. (double (apply f (map #(.x #^Vec2 %) vs)))
                    (double (apply f (map #(.y #^Vec2 %) vs))))))
-    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (Math/sqrt (dot v v))))))
+    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (Math/sqrt (dot v v))))
+    (all* [_ f] (and (f x) (f y)))
+    (all* [_ v f] (and (f x (.x v)) (f y (.y v))))))
 
 (tag-vars
  {p Polar2}
@@ -142,10 +146,14 @@
                   (double (apply f (map #(.y #^Vec3 %) vs)))
                   (double (apply f (map #(.z #^Vec3 %) vs))))))
    (polar [v]
-          (let [len (Math/sqrt (dot v v))]
-            (Polar3. (.theta (polar (Vec2. x z)))
+          (let [len (Math/sqrt (dot v v))
+                p (polar (Vec2. x z))]
+            (Polar3. (.theta #^Polar2 p)
                      (degrees (Math/asin (/ y len)))
-                     len)))))
+                     len)))
+
+   (all* [_ f] (and (f x) (f y) (f z)))
+   (all* [_ v f] (and (f x (.x v)) (f y (.y v)) (f z (.z v))))))
 
 (tag-vars
  {p Polar3}
