@@ -46,12 +46,20 @@
     (all? >= (.lr a) (.ul b))
     (all? <= (.ul a) (.lr b)))))
 
+(tag-vars
+ {b Box2, v Vec2}
+ (defn- box2-vec2-intersects? [b v]
+   (and
+    (all? <= (.ul b) v)
+    (all? >= (.lr b) v))))
+
 (extend-type Box2
   Shape
   (intersects? [a b]
-    (if (instance? Box2 b)
-      (box2-box2-intersects? a b)
-      (intersects? b a))))
+    (cond
+     (instance? Box2 b) (box2-box2-intersects? a b)
+     (instance? Vec2 b) (box2-vec2-intersects? a b)
+     :else (intersects? b a))))
 
 (tag-vars
  {a Box2, b Box2}
@@ -74,12 +82,20 @@
     (all? >= (.lr a) (.ul b))
     (all? <= (.ul a) (.lr b)))))
 
+(tag-vars
+ {b Box3, v Vec3}
+ (defn- box3-vec3-intersects? [b v]
+   (and
+    (all? <= (.ul b) v)
+    (all? >= (.lr b) v))))
+
 (extend-type Box3
   Shape
   (intersects? [a b]
-    (if (isa? (type b) Box3)
-      (box3-box3-intersects? a b)
-      (intersects? b a))))
+    (cond
+     (instance? Box3 b) (box3-box3-intersects? a b)
+     (instance? Vec3 b) (box3-vec3-intersects? a b)
+     :else (intersects? b a))))
 
 (tag-vars
  {a Box3, b Box3}
