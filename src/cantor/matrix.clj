@@ -94,7 +94,7 @@
   "Creates an identity matrix.  The default result is a 4x4 matrix."
   ([] (identity-matrix 3))
   ([dim]
-     (condp dim =
+     (condp = dim
 	 2 (Matrix33.
 	    1 0 0
 	    0 1 0

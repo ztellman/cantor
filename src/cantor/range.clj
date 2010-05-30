@@ -70,7 +70,8 @@
 
 (defn range?
   "Returns true if 'r' is a range."
-  [r])
+  [r]
+  (satisfies? Range r))
 
 (defn interval
   "Creates a 1-D range."

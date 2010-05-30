@@ -207,12 +207,12 @@
 (defn cartesian?
   "Returns true is 'c' is a cartesian vector."
   [c]
-  (instance? Cartesian c))
+  (satisfies? Cartesian c))
 
 (defn polar?
   "Returns true if 'p' is a polar coordinate."
   [p]
-  (instance? Polar p))
+  (satisfies? Polar p))
 
 (defn cross
   "Returns the cross product of two 3-vectors."
