@@ -8,8 +8,8 @@
 
 (ns cantor.vector
   (:use [clojure.contrib.def :only (defmacro-)]
-        [clojure.walk :only (postwalk postwalk-replace)]
-        [cantor.misc :only (radians degrees)]))
+        [cantor.misc :only (radians degrees)]
+        [cantor.utils :only (with-tags)]))
 
 ;;;
 
@@ -19,27 +19,30 @@
   (mul [a] [a b])
   (div [a] [a b]))
 
+(defprotocol Tuple
+  (map- [t f] [a b f] [a b rest f])
+  (all- [t f] [a b f])
+  (dimension [t]))
+
 (defprotocol Cartesian
   (dot [a b])
-  (polar [v])
-  (map* [v f] [v f rest])
-  (all* [v f] [a b f]))
+  (polar [v]))
 
 (defprotocol Polar
   (cartesian [p]))
 
+(defn map*
+  "Same as map, but returns a tuple of the same type as the input(s)."
+  ([f v] (map- v f))
+  ([f a b] (map- a b f))
+  ([f a b & rest] (map- a b rest f)))
+
+(defn all?
+  "Returns true if all components of the input tuple satisfy 'f'."
+  ([f a] (all- a f))
+  ([f a b] (all- a b f)))
+
 ;;;
-
-(defmacro- tag-vars [types body]
-  (let [types (into {} (map (fn [[k v]] [k (with-meta k (merge (meta k) {:tag v}))]) types))]
-    (->> body
-         (postwalk-replace types)
-         (postwalk #(if (vector? %) (postwalk-replace (zipmap (vals types) (keys types)) %) %)))))
-
-;;;
-
-(defmacro- replace-symbols [symbols body]
-  (postwalk-replace symbols body))
 
 (defrecord Polar2 [#^double theta #^double r]
 
@@ -48,8 +51,7 @@
                   0 theta
                   1 r)))
 
-(tag-vars
-  {v Vec2}
+(with-tags {u Vec2, v Vec2}
   (defrecord Vec2 [#^double x #^double y]
 
     clojure.lang.IFn
@@ -76,21 +78,26 @@
               (Vec2. (/ x b) (/ y b)))
             (let [v b]
               (Vec2. (/ x (.x v)) (/ y (.y v))))))
+
+    Tuple
+    (map- [_ f]
+          (Vec2. (double (f x)) (double (f y))))
+    (map- [u v f]
+          (Vec2. (f (.x u) (.x v))
+                 (f (.y u) (.y v))))
+    (map- [u v rest f]
+          (let [vs (list* u v rest)]
+            (Vec2. (apply f (map #(.x #^Vec2 %) vs))
+                   (apply f (map #(.y #^Vec2 %) vs)))))
+    (all- [_ f] (and (f x) (f y)))
+    (all- [_ v f] (and (f x (.x v)) (f y (.y v))))
+    (dimension [_] 2)
+    
     Cartesian
     (dot [_ v] (+ (* x (.x v)) (* y (.y v))))
-   
-    (map* [_ f]
-          (Vec2. (double (f x)) (double (f y))))
-    (map* [v f rest]
-          (let [vs (cons v rest)]
-            (Vec2. (double (apply f (map #(.x #^Vec2 %) vs)))
-                   (double (apply f (map #(.y #^Vec2 %) vs))))))
-    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (Math/sqrt (dot v v))))
-    (all* [_ f] (and (f x) (f y)))
-    (all* [_ v f] (and (f x (.x v)) (f y (.y v))))))
+    (polar [v] (Polar2. (degrees (Math/atan2 y x)) (Math/sqrt (dot v v))))))
 
-(tag-vars
- {p Polar2}
+(with-tags {p Polar2}
  (extend-type Polar2
   Polar
   (cartesian [p]
@@ -105,8 +112,7 @@
                   1 phi
                   2 r)))
 
-(tag-vars
- {v Vec3}
+(with-tags {u Vec3, v Vec3}
  (defrecord Vec3 [#^double x #^double y #^double z]
 
    clojure.lang.IFn
@@ -134,29 +140,33 @@
              (Vec3. (/ x b) (/ y b) (/ z b)))
            (let [v b]
              (Vec3. (/ x (.x v)) (/ y (.y v)) (/ z (.z v))))))
-   
-   Cartesian
-   (dot [_ v] (+ (* x (.x v)) (* y (.y v)) (* z (.z v))))
-   
-   (map* [_ f]
-          (Vec3. (double (f x)) (double (f y)) (double (f z))))
-   (map* [v f rest]
-         (let [vs (cons v rest)]
+
+   Tuple
+   (map- [_ f]
+         (Vec3. (double (f x)) (double (f y)) (double (f z))))
+   (map- [u v f]
+         (Vec3. (f (.x u) (.x v))
+                (f (.y u) (.y v))
+                (f (.z u) (.z v))))
+   (map- [u v rest f]
+         (let [vs (list* u v rest)]
            (Vec3. (double (apply f (map #(.x #^Vec3 %) vs)))
                   (double (apply f (map #(.y #^Vec3 %) vs)))
                   (double (apply f (map #(.z #^Vec3 %) vs))))))
+   (all- [_ f] (and (f x) (f y) (f z)))
+   (all- [_ v f] (and (f x (.x v)) (f y (.y v)) (f z (.z v))))
+   (dimension [_] 3)
+   
+   Cartesian
+   (dot [_ v] (+ (* x (.x v)) (* y (.y v)) (* z (.z v))))
    (polar [v]
           (let [len (Math/sqrt (dot v v))
                 p (polar (Vec2. x z))]
             (Polar3. (.theta #^Polar2 p)
                      (degrees (Math/asin (/ y len)))
-                     len)))
+                     len)))))
 
-   (all* [_ f] (and (f x) (f y) (f z)))
-   (all* [_ v f] (and (f x (.x v)) (f y (.y v)) (f z (.z v))))))
-
-(tag-vars
- {p Polar3}
+(with-tags {p Polar3}
  (extend-type Polar3
   Polar
   (cartesian [p]
@@ -194,35 +204,15 @@
   ([theta phi] (polar3 theta phi 1))
   ([theta phi r] (Polar3. theta phi r)))
 
-(defn vec2?
-  "Returns true if 'v' is a 2-vector"
-  [v]
-  (instance? Vec2 v))
-
-(defn vec3?
-  "Returns true if 'v' is a 3-vector"
-  [v]
-  (instance? Vec3 v))
-
-(defn vec?
-  "Returns true if 'v' is a vector."
-  [v]
-  (or (vec2? v) (vec3? v)))
-
-(defn polar2?
-  "Returns true if 'p' is a 2-vector in polar coordinates"
-  [p]
-  (instance? Polar2 p))
-
-(defn polar3?
-  "Returns true if 'p' is a 3-vector in polar coordinates"
-  [p]
-  (instance? Polar3 p))
+(defn cartesian?
+  "Returns true is 'c' is a cartesian vector."
+  [c]
+  (instance? Cartesian c))
 
 (defn polar?
   "Returns true if 'p' is a polar coordinate."
   [p]
-  (or (polar2? p) (polar3? p)))
+  (instance? Polar p))
 
 (defn cross
   "Returns the cross product of two 3-vectors."

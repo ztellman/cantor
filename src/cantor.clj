@@ -11,7 +11,7 @@
              [vector :as vec]
              [matrix :as mat]
              [misc :as misc]
-             [shape :as sh]])
+             [range :as range]])
   (:use [clojure.contrib.def :only (defmacro-)]))
 
 ;;
@@ -30,7 +30,7 @@
   "Add together scalars or vectors of equal dimension."
   ([a] (vec/add a))
   ([a b] (vec/add a b))
-  ([a b c] (->> a (add b) (add c)))
+  ([a b c] (add (add a b) c))
   ([a b c & rest] (add (add a b c) (apply add rest))))
 
 (defn sub
@@ -39,7 +39,7 @@
    (- a b c) is equivalent to (- (- a b) c)"
   ([a] (vec/sub a))
   ([a b] (vec/sub a b))
-  ([a b c] (-> a (sub b) (sub c)))
+  ([a b c] (sub (sub a b) c))
   ([a b c & rest] (sub (sub a b c) (apply add rest))))
 
 (defn mul
@@ -47,7 +47,7 @@
    scalars and vectors of the same dimension."
   ([a] (vec/mul a))
   ([a b] (vec/mul a b))
-  ([a b c] (->> a (mul b) (mul c)))
+  ([a b c] (mul (mul a b) c))
   ([a b c & rest] (mul (mul a b c) (apply mul rest))))
 
 (defn div
@@ -57,7 +57,7 @@
    (/ a b c) = (/ (/ a b) c)"
   ([a] (vec/div a))
   ([a b] (vec/div a b))
-  ([a b c] (-> a (div b) (div c)))
+  ([a b c] (div (div a b) c))
   ([a b c & rest] (div (div a b c) (apply mul rest))))
 
 (import-fn #'vec/dot)
@@ -84,26 +84,28 @@
   [v]
   (div v (length v)))
 
-;; constructors
+;; vector
 
 (import-fn vec/vec2)
 (import-fn vec/vec3)
 (import-fn vec/polar2)
 (import-fn vec/polar3)
 
-(import-fn vec/vec?)
-(import-fn vec/vec2?)
-(import-fn vec/vec3?)
-
+(import-fn vec/cartesian?)
 (import-fn vec/polar?)
-(import-fn vec/polar2?)
-(import-fn vec/polar3?)
+(import-fn #'vec/dimension)
 
-(import-fn sh/box2)
-(import-fn sh/box3)
-(import-fn sh/box?)
-(import-fn sh/box2?)
-(import-fn sh/box3?)
+;; range
+
+(import-fn range/range?)
+(import-fn range/interval)
+(import-fn range/box2)
+(import-fn range/box3)
+(import-fn #'range/ul)
+(import-fn #'range/lr)
+(import-fn range/intersection)
+(import-fn range/union)
+(import-fn range/inside?)
 
 ;; geometry
 
@@ -117,11 +119,8 @@
 (import-fn mat/scaling-matrix)
 (import-fn mat/normal-matrix)
 
-;; shape
-
-(import-fn sh/map*)
-(import-fn sh/all?)
-(import-fn #'sh/intersects?)
+(import-fn vec/map*)
+(import-fn vec/all?)
 
 ;; misc
 
@@ -139,17 +138,32 @@
      (extend-type java.lang.Float ~@body)
      (extend-type clojure.lang.Ratio ~@body)))
 
-'(extend-numbers
- vec/Polar
- (cartesian [n] (cartesian (polar2 n 1))))
-
 (extend-numbers
  vec/Arithmetic
- (add [a] a)
- (add [a b] (+ a b))
- (sub [a] (- a))
- (sub [a b] (- a b))
- (mul [a] a)
- (mul [a b] (* a b))
- (div [a] a)
- (div [a b] (/ a b)))
+ (add
+  ([a] a)
+  ([a b] (+ a b)))
+ (sub
+  ([a] (- a))
+  ([a b] (- a b)))
+ (mul
+  ([a] a)
+  ([a b] (* a b)))
+ (div
+  ([a] a)
+  ([a b] (/ a b))))
+
+(extend-numbers
+ vec/Tuple
+ (map-
+  ([n f] (f n))
+  ([a b f] (f a b))
+  ([a b rest f] (apply f (list* a b rest))))
+ (all-
+  ([n f] (f n))
+  ([a b f] (f a b)))
+ (dimension [_] 1))
+
+(extend-numbers
+ vec/Polar
+ (cartesian [n] (cartesian (polar2 n 1))))

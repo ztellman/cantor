@@ -7,8 +7,7 @@
 ;;   You must not remove this notice, or any other, from this software.
 
 (ns cantor.misc
-  (:use [clojure.contrib.lazy-seqs :only (primes)])
-  (:require [cantor.vector :as vec]))
+  (:use [clojure.contrib.lazy-seqs :only (primes)]))
 
 (defn prime-factors
   "Returns prime factors of a number"
