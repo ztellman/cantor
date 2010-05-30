@@ -74,20 +74,19 @@ Shortcuts:<br />
   <h2 id="A"><span id="section-head">A</span></h2>
   <pre>
 <span id="section-content"> <a href="cantor-api.html#cantor/add">add</a><span id="line-content">                          function      cantor             Add together scalars or vectors of equal dimension...
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/all?">all?</a><span id="line-content">                         function      cantor             Returns true if all components of the input vector...
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/all?">all?</a><span id="line-content">                         function      cantor             Returns true if all components of the input tuple ...
 </span></span></pre>
 </div><div id="index-body">
   <h2 id="B"><span id="section-head">B</span></h2>
   <pre>
-<span id="section-content"> <a href="cantor-api.html#cantor/box2?">box2?</a><span id="line-content">                        function      cantor             Returns true if 'b' is a 2-D box..
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/box3">box3</a><span id="line-content">                         function      cantor             Creates a 3-D box..
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/box3?">box3?</a><span id="line-content">                        function      cantor             Returns true if 'b' is a 3-D box..
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/box?">box?</a><span id="line-content">                         function      cantor             Returns true if 'b' is a box..
+<span id="section-content"> <a href="cantor-api.html#cantor/box2">box2</a><span id="line-content">                         function      cantor             Creates a 2-D range, or box..
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/box3">box3</a><span id="line-content">                         function      cantor             Creates a 3-D range, or box..
 </span></span></pre>
 </div><div id="index-body">
   <h2 id="C"><span id="section-head">C</span></h2>
   <pre>
-<span id="section-content"> <a href="cantor-api.html#cantor/cross">cross</a><span id="line-content">                        function      cantor             Returns the cross product of two 3-vectors..
+<span id="section-content"> <a href="cantor-api.html#cantor/cartesian?">cartesian?</a><span id="line-content">                   function      cantor             Returns true is 'c' is a cartesian vector..
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/cross">cross</a><span id="line-content">                        function      cantor             Returns the cross product of two 3-vectors..
 </span></span></pre>
 </div><div id="index-body">
   <h2 id="D"><span id="section-head">D</span></h2>
@@ -115,6 +114,9 @@ Shortcuts:<br />
   <h2 id="I"><span id="section-head">I</span></h2>
   <pre>
 <span id="section-content"> <a href="cantor-api.html#cantor/identity-matrix">identity-matrix</a><span id="line-content">              function      cantor             Creates an identity matrix.  The default result is...
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/inside?">inside?</a><span id="line-content">                      function      cantor             Returns true if vector 'p' is inside range 'r'..
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/intersection">intersection</a><span id="line-content">                 function      cantor             Returns the intersection of the two ranges, or nil...
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/interval">interval</a><span id="line-content">                     function      cantor             Creates a 1-D range..
 </span></span></pre>
 </div><div id="index-body">
   <h2 id="J"><span id="section-head">J</span></h2>
@@ -130,11 +132,12 @@ Shortcuts:<br />
 <span id="section-content"> <a href="cantor-api.html#cantor/length">length</a><span id="line-content">                       function      cantor             Calculates the length of v..
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/length-squared">length-squared</a><span id="line-content">               function      cantor             Calculates the length squared of v.  Significantly...
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/lerp">lerp</a><span id="line-content">                         function      cantor             Linear interpolation between a and b, where t=0 is...
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/lr">lr</a><span id="line-content">                           function      cantor             Returns the maxima of the range..
 </span></span></pre>
 </div><div id="index-body">
   <h2 id="M"><span id="section-head">M</span></h2>
   <pre>
-<span id="section-content"> <a href="cantor-api.html#cantor/map*">map*</a><span id="line-content">                         function      cantor             Same as map, but returns a vector of the same type...
+<span id="section-content"> <a href="cantor-api.html#cantor/map*">map*</a><span id="line-content">                         function      cantor             Same as map, but returns a tuple of the same type ...
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/mul">mul</a><span id="line-content">                          function      cantor             Multiplies together a list of scalars, or a vector...
 </span></span></pre>
 </div><div id="index-body">
@@ -151,9 +154,7 @@ Shortcuts:<br />
   <h2 id="P"><span id="section-head">P</span></h2>
   <pre>
 <span id="section-content"> <a href="cantor-api.html#cantor/polar2">polar2</a><span id="line-content">                       function      cantor             Creates a 2-D polar coordinate. (polar theta) =&gt; (...
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/polar2?">polar2?</a><span id="line-content">                      function      cantor             Returns true if 'p' is a 2-vector in polar coordin...
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/polar3">polar3</a><span id="line-content">                       function      cantor             Creates a 3-D polar coordinate. (polar3 theta phi)...
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/polar3?">polar3?</a><span id="line-content">                      function      cantor             Returns true if 'p' is a 3-vector in polar coordin...
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/polar?">polar?</a><span id="line-content">                       function      cantor             Returns true if 'p' is a polar coordinate..
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/prime-factors">prime-factors</a><span id="line-content">                function      cantor             Returns prime factors of a number.
 </span></span></pre>
@@ -165,6 +166,7 @@ Shortcuts:<br />
   <h2 id="R"><span id="section-head">R</span></h2>
   <pre>
 <span id="section-content"> <a href="cantor-api.html#cantor/radians">radians</a><span id="line-content">                      function      cantor             Transforms degrees to radians..
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/range?">range?</a><span id="line-content">                       function      cantor             Returns true if 'r' is a range..
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/rectangle-factors">rectangle-factors</a><span id="line-content">            function      cantor             Returns two values [x y], where x*y == n. x and y ...
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/rotation-matrix">rotation-matrix</a><span id="line-content">              function      cantor             Returns a matrix which either rotates 2-D vectors ...
 </span></span></pre>
@@ -184,15 +186,14 @@ Shortcuts:<br />
 </div><div id="index-body">
   <h2 id="U"><span id="section-head">U</span></h2>
   <pre>
-</pre>
+<span id="section-content"> <a href="cantor-api.html#cantor/ul">ul</a><span id="line-content">                           function      cantor             Returns the minima of the range..
+</span></span><span id="section-content"> <a href="cantor-api.html#cantor/union">union</a><span id="line-content">                        function      cantor             Returns the union of the two ranges..
+</span></span></pre>
 </div><div id="index-body">
   <h2 id="V"><span id="section-head">V</span></h2>
   <pre>
 <span id="section-content"> <a href="cantor-api.html#cantor/vec2">vec2</a><span id="line-content">                         function      cantor             Creates a 2-vector..
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/vec2?">vec2?</a><span id="line-content">                        function      cantor             Returns true if 'v' is a 2-vector.
 </span></span><span id="section-content"> <a href="cantor-api.html#cantor/vec3">vec3</a><span id="line-content">                         function      cantor             Creates a 3-vector. (vec3 (vec2 x y) z) =&gt; (vec3 x...
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/vec3?">vec3?</a><span id="line-content">                        function      cantor             Returns true if 'v' is a 3-vector.
-</span></span><span id="section-content"> <a href="cantor-api.html#cantor/vec?">vec?</a><span id="line-content">                         function      cantor             Returns true if 'v' is a vector..
 </span></span></pre>
 </div><div id="index-body">
   <h2 id="W"><span id="section-head">W</span></h2>
