@@ -6,7 +6,8 @@
 ;;   the terms of this license.
 ;;   You must not remove this notice, or any other, from this software.
 
-(ns cantor
+(ns ^{:author "Zachary Tellman"}
+  cantor
   (:require [cantor
              [vector :as vec]
              [matrix :as mat]

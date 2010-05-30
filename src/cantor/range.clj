@@ -6,7 +6,7 @@
 ;;   the terms of this license.
 ;;   You must not remove this notice, or any other, from this software.
 
-(ns cantor.range
+(ns ^{:skip-wiki true} cantor.range
   (:use [cantor.utils])
   (:require [cantor.vector :as vec])
   (:import [cantor.vector Vec2 Vec3]))

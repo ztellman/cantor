@@ -6,7 +6,7 @@
 ;;   the terms of this license.
 ;;   You must not remove this notice, or any other, from this software.
 
-(ns cantor.matrix
+(ns ^{:skip-wiki true} cantor.matrix
   (:use [cantor misc]
         [clojure.contrib.def :only (defmacro-)]
         [clojure.walk :only (postwalk postwalk-replace)])

@@ -6,7 +6,7 @@
 ;   the terms of this license.
 ;   You must not remove this notice, or any other, from this software.
 
-(ns cantor.utils
+(ns ^{:skip-wiki true} cantor.utils
   (:use [clojure.walk :only (postwalk postwalk-replace)]))
 
 (defmacro replace-symbols [symbols body]
