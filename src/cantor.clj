@@ -107,6 +107,7 @@
 (import-fn range/intersection)
 (import-fn range/union)
 (import-fn range/inside?)
+(import-fn range/size)
 
 ;; geometry
 
