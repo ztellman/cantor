@@ -16,7 +16,7 @@
 (defprotocol Range
   (#^vec/Tuple ul [r] "Returns the minima of the range.")
   (#^vec/Tuple lr [r] "Returns the maxima of the range.")
-  (clone [r a b]))
+  (clone [r a b] "Returns a range of the same type with endpoints set to a and b"))
 
 (defn overlap?
   "Returns true if the two ranges overlap."
@@ -45,6 +45,11 @@
   [r p]
   (and (vec/all? <= (ul r) p)
        (vec/all? >= (lr r) p)))
+
+(defn size
+  "Returns the difference between the two extremes of the range."
+  [r]
+  (vec/sub (lr r) (ul r)))
 
 ;;;
 
