@@ -34,3 +34,5 @@ The available operators include:
 * cartesian 
 ** @(cartesian (polar2 45 1))@ => @[ x=0.707 y=0.707 ]@
 ** @(cartesian 45)@ => @[ x=0.707 y=0.707 ]@
+
+Complete documentation can be found "here":http://ztellman.github.com/cantor/cantor-api.html.
