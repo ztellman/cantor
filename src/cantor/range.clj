@@ -6,7 +6,9 @@
 ;;   the terms of this license.
 ;;   You must not remove this notice, or any other, from this software.
 
-(ns ^{:skip-wiki true} cantor.range
+(ns
+  ^{:skip-wiki true}
+  cantor.range
   (:use [cantor.utils])
   (:require [cantor.vector :as vec])
   (:import [cantor.vector Vec2 Vec3]))
@@ -14,62 +16,77 @@
 ;;;
 
 (defprotocol Range
-  (#^vec/Tuple ul [r] "Returns the minima of the range.")
-  (#^vec/Tuple lr [r] "Returns the maxima of the range.")
+  (#^vec/Tuple upper [r] "Returns the minima of the range.")
+  (#^vec/Tuple lower [r] "Returns the maxima of the range.")
   (clone [r a b] "Returns a range of the same type with endpoints set to a and b"))
 
 (defn overlap?
   "Returns true if the two ranges overlap."
   [a b]
   (and
-   (vec/all? <= (ul a) (lr b))
-   (vec/all? >= (lr a) (ul b))))
+   (vec/all? <= (upper a) (lower b))
+   (vec/all? >= (lower a) (upper b))))
 
 (defn intersection
   "Returns the intersection of the two ranges, or nil if they don't intersect."
   [a b]
   (when (overlap? a b)
     (clone a
-           (vec/map* max (ul a) (ul b))
-           (vec/map* min (lr a) (lr b)))))
+           (vec/map* max (upper a) (upper b))
+           (vec/map* min (lower a) (lower b)))))
 
 (defn union
   "Returns the union of the two ranges."
   [a b]
   (clone a
-         (vec/map* min (ul a) (ul b))
-         (vec/map* max (lr a) (lr b))))
+         (vec/map* min (upper a) (upper b))
+         (vec/map* max (lower a) (lower b))))
 
 (defn inside?
   "Returns true if vector 'p' is inside range 'r'."
   [r p]
-  (and (vec/all? <= (ul r) p)
-       (vec/all? >= (lr r) p)))
+  (and (vec/all? <= (upper r) p)
+       (vec/all? >= (lower r) p)))
 
 (defn size
   "Returns the difference between the two extremes of the range."
   [r]
-  (vec/sub (lr r) (ul r)))
+  (vec/sub (lower r) (upper r)))
 
 ;;;
 
 (defrecord Interval [#^double a #^double b]
   Range
-  (ul [r] a)
-  (lr [r] b)
-  (clone [_ a b] (Interval. a b)))
+  (upper [r] a)
+  (lower [r] b)
+  (clone [_ a b] (Interval. a b))
+  clojure.lang.IFn
+  (invoke [_ n]
+    (condp = n
+      0 a
+      1 b)))
 
 (defrecord Box2 [#^Vec2 a #^Vec2 b]
   Range
-  (ul [r] a)
-  (lr [r] b)
-  (clone [_ a b] (Box2. a b)))
+  (upper [r] a)
+  (lower [r] b)
+  (clone [_ a b] (Box2. a b))
+  clojure.lang.IFn
+  (invoke [_ n]
+    (condp = n
+      0 a
+      1 b)))
 
 (defrecord Box3 [#^Vec3 a #^Vec3 b]
   Range
-  (ul [r] a)
-  (lr [r] b)
-  (clone [_ a b] (Box3. a b)))
+  (upper [r] a)
+  (lower [r] b)
+  (clone [_ a b] (Box3. a b))
+  clojure.lang.IFn
+  (invoke [_ n]
+    (condp = n
+      0 a
+      1 b)))
 
 ;;;
 

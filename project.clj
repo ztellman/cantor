@@ -1,4 +1,4 @@
-(defproject cantor "0.2.0-SNAPSHOT"
+(defproject cantor "0.2.0"
   :description "primitive math for clojure"
   :dependencies [[org.clojure/clojure "1.2.0-master-SNAPSHOT"]
                  [org.clojure/clojure-contrib "1.2.0-SNAPSHOT"]]
