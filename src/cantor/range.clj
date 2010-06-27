@@ -53,6 +53,20 @@
   [r]
   (vec/sub (lower r) (upper r)))
 
+(defn offset
+  "Returns an interval offset by 'value'."
+  [interval value]
+  (clone interval
+    (vec/add (upper interval) value)
+    (vec/add (lower interval) value)))
+
+(defn scale
+  "Returns an interval scaled by 'value'."
+  [interval value]
+  (clone interval
+    (vec/mul (upper interval) value)
+    (vec/mul (lower interval) value)))
+
 ;;;
 
 (defrecord Interval [#^double a #^double b]
