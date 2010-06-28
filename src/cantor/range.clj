@@ -32,21 +32,22 @@
   [a b]
   (when (overlap? a b)
     (clone a
-           (vec/map* max (upper a) (upper b))
-           (vec/map* min (lower a) (lower b)))))
+      (vec/map* max (upper a) (upper b))
+      (vec/map* min (lower a) (lower b)))))
 
 (defn union
   "Returns the union of the two ranges."
   [a b]
   (clone a
-         (vec/map* min (upper a) (upper b))
-         (vec/map* max (lower a) (lower b))))
+    (vec/map* min (upper a) (upper b))
+    (vec/map* max (lower a) (lower b))))
 
 (defn inside?
   "Returns true if vector 'p' is inside range 'r'."
   [r p]
-  (and (vec/all? <= (upper r) p)
-       (vec/all? >= (lower r) p)))
+  (and
+    (vec/all? <= (upper r) p)
+    (vec/all? >= (lower r) p)))
 
 (defn size
   "Returns the difference between the two extremes of the range."
@@ -69,33 +70,93 @@
 
 ;;;
 
-(defrecord Interval [#^double a #^double b]
-  Range
-  (upper [r] a)
-  (lower [r] b)
-  (clone [_ a b] (Interval. a b))
-  clojure.lang.IFn
-  (invoke [_ n]
-    (condp = n
-      0 a
-      1 b)))
+(deftype Interval [#^double a #^double b]
+   Object
+   (equals [_ r]
+     (try
+       (and
+	 ;;(instance? Interval b)
+	 (= a (.a #^Interval r))
+	 (= b (.b #^Interval r)))
+       (catch Exception e
+	 false)))
+   (hashCode [_]
+     (+ (int a) (int b)))
 
-(defrecord Box2 [#^Vec2 a #^Vec2 b]
+   clojure.lang.Seqable
+   (seq [_] (list a b))
+   
+   clojure.lang.Indexed
+   (nth [this idx] (this idx))
+   (count [_] 2)
+   
+   Range
+   (upper [r] a)
+   (lower [r] b)
+   (clone [_ a b] (Interval. a b))
+   
+   clojure.lang.IFn
+   (invoke [_ n]
+     (condp = n
+       0 a
+       1 b)))
+
+(deftype Box2 [#^Vec2 a #^Vec2 b]
+  Object
+  (equals [_ r]
+    (try
+      (and
+	;;(instance? Box2 b)
+	(= a (.a #^Box2 r))
+	(= b (.b #^Box2 r)))
+      (catch Exception e
+	false)))
+  (hashCode [_]
+    (+ (.hashCode a) (.hashCode b)))
+
+  clojure.lang.Seqable
+  (seq [_] (list a b))
+
+  clojure.lang.Indexed
+  (nth [this idx] (this idx))
+  (count [_] 2)
+   
   Range
   (upper [r] a)
   (lower [r] b)
   (clone [_ a b] (Box2. a b))
+
   clojure.lang.IFn
   (invoke [_ n]
     (condp = n
       0 a
       1 b)))
 
-(defrecord Box3 [#^Vec3 a #^Vec3 b]
+(deftype Box3 [#^Vec3 a #^Vec3 b]
+  Object
+  (equals [_ r]
+    (try
+      (and
+	;;(instance? Box2 b)
+	(= a (.a #^Box3 r))
+	(= b (.b #^Box3 r)))
+      (catch Exception e
+	false)))
+  (hashCode [_]
+    (+ (.hashCode a) (.hashCode b)))
+
+  clojure.lang.Seqable
+  (seq [_] (list a b))
+
+  clojure.lang.Indexed
+  (nth [this idx] (this idx))
+  (count [_] 2)
+  
   Range
   (upper [r] a)
   (lower [r] b)
   (clone [_ a b] (Box3. a b))
+
   clojure.lang.IFn
   (invoke [_ n]
     (condp = n
@@ -124,3 +185,13 @@
   [ul lr]
   (Box3. ul lr))
 
+;;;
+
+(defmethod print-method cantor.range.Interval [r writer]
+  (.write writer (str "[ lower=" (lower r) ", upper=" (upper r) " ]")))
+
+(defmethod print-method cantor.range.Box2 [r writer]
+  (.write writer (str "[ lower=" (lower r) ", upper=" (upper r) " ]")))
+
+(defmethod print-method cantor.range.Box3 [r writer]
+  (.write writer (str "[ lower=" (lower r) ", upper=" (upper r) " ]")))

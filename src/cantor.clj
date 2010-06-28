@@ -37,7 +37,7 @@
 (defn sub
   "Subtract scalars or vectors of equal dimension.
 
-   (- a b c) is equivalent to (- (- a b) c)"
+   (sub a b c) is equivalent to (sub (sub a b) c)"
   ([a] (vec/sub a))
   ([a b] (vec/sub a b))
   ([a b c] (sub (sub a b) c))
@@ -55,7 +55,7 @@
   "Divides a list of scalars, or a vector followed by any combination of scalars and
    vectors of the same dimension.
 
-   (/ a b c) = (/ (/ a b) c)"
+   (div a b c) = (div (div a b) c)"
   ([a] (vec/div a))
   ([a b] (vec/div a b))
   ([a b c] (div (div a b) c))
@@ -89,12 +89,12 @@
 
 (import-fn vec/vec2)
 (import-fn vec/vec3)
+(import-fn vec/vec4)
 (import-fn vec/polar2)
 (import-fn vec/polar3)
 
 (import-fn vec/cartesian?)
 (import-fn vec/polar?)
-(import-fn #'vec/dimension)
 
 ;; range
 

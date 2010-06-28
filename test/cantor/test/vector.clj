@@ -19,6 +19,10 @@
 (def b2 (vec3 2 2 2))
 (def b3 (vec3 3 3 3))
 
+(def c1 (vec4 1 1 1 1))
+(def c2 (vec4 2 2 2 2))
+(def c3 (vec4 3 3 3 3))
+
 (def n1 1)
 (def n2 2)
 (def n3 3)
@@ -27,6 +31,7 @@
   `(do
      ~@(postwalk-replace {'v1 'a1, 'v2 'a2, 'v3 'a3} body)
      ~@(postwalk-replace {'v1 'b1, 'v2 'b2, 'v3 'b3} body)
+     ~@(postwalk-replace {'v1 'c1, 'v2 'c2, 'v3 'c3} body)
      ~@(postwalk-replace {'v1 'n1, 'v2 'n2, 'v3 'n3} body)))
 
 (deftest vector-test
