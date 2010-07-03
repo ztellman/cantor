@@ -104,8 +104,6 @@
 (import-fn range/box3)
 (import-fn #'range/upper)
 (import-fn #'range/lower)
-(import-fn range/offset)
-(import-fn range/scale)
 (import-fn range/intersection)
 (import-fn range/union)
 (import-fn range/inside?)
