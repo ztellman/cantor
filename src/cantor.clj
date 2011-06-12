@@ -87,51 +87,51 @@
 
 ;; vector
 
-(import-fn vec/vec2)
-(import-fn vec/vec3)
-(import-fn vec/vec4)
-(import-fn vec/polar2)
-(import-fn vec/polar3)
+(import-fn #'vec/vec2)
+(import-fn #'vec/vec3)
+(import-fn #'vec/vec4)
+(import-fn #'vec/polar2)
+(import-fn #'vec/polar3)
 
-(import-fn vec/cartesian?)
-(import-fn vec/polar?)
+(import-fn #'vec/cartesian?)
+(import-fn #'vec/polar?)
 
 ;; range
 
-(import-fn range/range?)
-(import-fn range/interval)
-(import-fn range/box2)
-(import-fn range/box3)
+(import-fn #'range/range?)
+(import-fn #'range/interval)
+(import-fn #'range/box2)
+(import-fn #'range/box3)
 (import-fn #'range/upper)
 (import-fn #'range/lower)
-(import-fn range/offset)
-(import-fn range/scale)
-(import-fn range/intersection)
-(import-fn range/union)
-(import-fn range/inside?)
-(import-fn range/size)
+(import-fn #'range/offset)
+;;(import-fn range/scale)
+(import-fn #'range/intersection)
+(import-fn #'range/union)
+(import-fn #'range/inside?)
+(import-fn #'range/size)
 
 ;; geometry
 
-(import-fn vec/cross)
+(import-fn #'vec/cross)
 
 (import-fn #'mat/transform-matrix)
 (import-fn #'mat/transform-vector)
-(import-fn mat/rotation-matrix)
-(import-fn mat/identity-matrix)
-(import-fn mat/translation-matrix)
-(import-fn mat/scaling-matrix)
-(import-fn mat/normal-matrix)
+(import-fn #'mat/rotation-matrix)
+(import-fn #'mat/identity-matrix)
+(import-fn #'mat/translation-matrix)
+(import-fn #'mat/scaling-matrix)
+(import-fn #'mat/normal-matrix)
 
-(import-fn vec/map*)
-(import-fn vec/all?)
+(import-fn #'vec/map*)
+(import-fn #'vec/all?)
 
 ;; misc
 
-(import-fn misc/prime-factors)
-(import-fn misc/rectangle-factors)
-(import-fn misc/radians)
-(import-fn misc/degrees)
+(import-fn #'misc/prime-factors)
+(import-fn #'misc/rectangle-factors)
+(import-fn #'misc/radians)
+(import-fn #'misc/degrees)
 
 ;;
 
