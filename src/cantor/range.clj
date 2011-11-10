@@ -46,8 +46,8 @@
   "Returns true if vector 'p' is inside range 'r'."
   [r p]
   (and
-    (vec/all? <= (upper r) p)
-    (vec/all? >= (lower r) p)))
+    (vec/all? >= (upper r) p)
+    (vec/all? <= (lower r) p)))
 
 (defn size
   "Returns the difference between the two extremes of the range."
