@@ -8,13 +8,12 @@
 
 (ns ^{:skip-wiki true} cantor.matrix
   (:use [cantor misc]
-        [clojure.contrib.def :only (defmacro-)]
         [clojure.walk :only (postwalk postwalk-replace)])
   (:import [cantor.vector Vec3 Vec2]))
 
 ;;;
 
-(defmacro- tag-vars [types body]
+(defmacro tag-vars [types body]
   (let [types (into {} (map (fn [[k v]] [k (with-meta k (merge (meta k) {:tag v}))]) types))]
     (->> body
          (postwalk-replace types)
@@ -36,7 +35,7 @@
 
 (tag-vars
  {a Matrix44, b Matrix44, m Matrix44}
- (defmacro- transform-matrix44- []
+ (defmacro transform-matrix44- []
    (let [index (fn [m x y] (list (symbol (str ".m" x y)) m))]
      (list*
       `Matrix44.
@@ -67,7 +66,7 @@
 
 (tag-vars
  {a Matrix33, b Matrix33, m Matrix33}
- (defmacro- transform-matrix33- []
+ (defmacro transform-matrix33- []
    (let [index (fn [m x y] (list (symbol (str ".m" x y)) m))]
      (list*
       `Matrix33.

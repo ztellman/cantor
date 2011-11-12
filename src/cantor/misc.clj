@@ -6,8 +6,32 @@
 ;;   the terms of this license.
 ;;   You must not remove this notice, or any other, from this software.
 
-(ns ^{:skip-wiki true} cantor.misc
-  (:use [clojure.contrib.lazy-seqs :only (primes)]))
+(ns ^{:skip-wiki true} cantor.misc)
+
+(defmacro defvar
+  "Defines a var with an optional intializer and doc string"
+  ([name]
+     (list `def name))
+  ([name init]
+     (list `def name init))
+  ([name init doc]
+     (list `def (with-meta name (assoc (meta name) :doc doc)) init)))
+
+(defvar primes
+  (concat
+   [2 3 5 7]
+   (lazy-seq
+    (let [primes-from
+	  (fn primes-from [n [f & r]]
+	    (if (some #(zero? (rem n %))
+		      (take-while #(<= (* % %) n) primes))
+	      (recur (+ n f) r)
+	      (lazy-seq (cons n (primes-from (+ n f) r)))))
+	  wheel (cycle [2 4 2 4 6 2 6 4 2 4 6 6 2 6 4 2
+			6 4 6 8 4 2 4 2 4 8 6 4 6 2 4 6
+			2 6 6 4 2 4 6 2 6 4 2 4 2 10 2 10])]
+      (primes-from 11 wheel))))
+  "Lazy sequence of all the prime numbers.")
 
 (defn prime-factors
   "Returns prime factors of a number"

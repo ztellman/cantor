@@ -10,7 +10,6 @@
   ^{:skip-wiki true}
   cantor.vector
   (:use
-    [clojure.contrib.def :only (defmacro-)]
     [cantor.misc :only (radians degrees)]
     [cantor.utils :only (with-tags)]))
 
