@@ -1,3 +1,5 @@
+*This library is not under active development.* It was written to support "Penumbra":https://github.com/ztellman/penumbra, which has also not been touched in a few years.  Given the changes to Clojure's primitive math in the intervening years, it's probably not that useful anymore.
+
 Cantor is a high-performance floating point math library.
 
 The idiomatic way to add together two 2-vectors in Clojure is
