@@ -143,7 +143,8 @@
       (catch Exception e
 	false)))
   (hashCode [_]
-    (+ (.hashCode a) (.hashCode b)))
+	    (mod (+ (.hashCode a) (.hashCode b))
+		 Integer/MAX_VALUE))
 
   clojure.lang.Seqable
   (seq [_] (list a b))

@@ -1,5 +1,3 @@
-(defproject cantor "0.3.0-SNAPSHOT"
-  :description "primitive math for clojure"
-  :dependencies [[org.clojure/clojure "1.2.0"]
-                 [org.clojure/clojure-contrib "1.2.0"]]
-  :dev-dependencies [])
+(defproject kephale/cantor "0.4.1"
+  :description "primitive math for clojure. clojure 1.4 version."
+  :dependencies [[org.clojure/clojure "1.4.0"]])
