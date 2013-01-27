@@ -12,12 +12,11 @@
              [vector :as vec]
              [matrix :as mat]
              [misc :as misc]
-             [range :as range]])
-  (:use [clojure.contrib.def :only (defmacro-)]))
+             [range :as range]]))
 
 ;;
 
-(defmacro- import-fn [sym]
+(defmacro import-fn [sym]
   (let [m (meta (eval sym))
         m (meta (intern (:ns m) (:name m)))
         n (:name m)
@@ -135,7 +134,7 @@
 
 ;;
 
-(defmacro- extend-numbers [& body]
+(defmacro extend-numbers [& body]
   `(do
      (extend-type java.lang.Double ~@body)
      (extend-type java.lang.Integer ~@body)

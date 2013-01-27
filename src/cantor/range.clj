@@ -46,8 +46,8 @@
   "Returns true if vector 'p' is inside range 'r'."
   [r p]
   (and
-    (vec/all? <= (upper r) p)
-    (vec/all? >= (lower r) p)))
+    (vec/all? >= (upper r) p)
+    (vec/all? <= (lower r) p)))
 
 (defn size
   "Returns the difference between the two extremes of the range."
@@ -143,7 +143,8 @@
       (catch Exception e
 	false)))
   (hashCode [_]
-    (+ (.hashCode a) (.hashCode b)))
+	    (mod (+ (.hashCode a) (.hashCode b))
+		 Integer/MAX_VALUE))
 
   clojure.lang.Seqable
   (seq [_] (list a b))
